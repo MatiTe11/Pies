@@ -12,9 +12,16 @@ namespace Pies
 {
     class TileDoors : Tile
     {
-        public TileDoors(int X, int Y, int tilesize) : base(X, Y, tilesize) {}
+        private bool shit;
+        public TileDoors(int X, int Y, int tilesize) : base(X, Y, tilesize)
+        {
+            shit = false;
+        }
 
-
-
+        public bool CleanShit
+        {
+            get { return shit; }
+            set { shit = value; }
+        }
     }
 }
