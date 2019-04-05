@@ -11,13 +11,16 @@ namespace Pies
     class GameScreen : IScreen
     {
         private Player player;
-        private Tile[,] tiles = new Tile[10,10];
+        private Player dog;
+        private const int sizeOfBoardX = 10;
+        private const int sizeOfBoardY = 10;
+        private List<List<Tile>> tiles;
         InputManager inputManager;
         int sizeOfTile;
 
         public GameScreen()
         {
-
+            tiles = new List<List<Tile>>();
         }
 
         public void LoadContent()
@@ -32,22 +35,36 @@ namespace Pies
 
         public void Update(GameTime gameTime)
         {
+            inputManager.Update();
             player.Update(gameTime);
+
             if(inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                player.Move(Direction.Left);
+                if (!player.isMoving() && GetTileNumber(player.PosX) > 1)
+                {
+                    player.Move(Direction.Left);
+                }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                player.Move(Direction.Right);
+                if (!player.isMoving() && GetTileNumber(player.PosX) < sizeOfBoardX - 1)
+                {
+                    player.Move(Direction.Right);
+                }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                player.Move(Direction.Up);
+                if (!player.isMoving() && tiles[GetTileNumber(player.PosX), GetTileNumber(player.PosY)] is TileStairs)
+                {
+                    player.Move(Direction.Up);
+                }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                player.Move(Direction.Down);
+                if (!player.isMoving() && tiles[GetTileNumber(player.PosX), GetTileNumber(player.PosY)] is TileStairs)
+                {
+                    player.Move(Direction.Up);
+                }
             }
             throw new NotImplementedException();
         }
@@ -55,6 +72,11 @@ namespace Pies
         public void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
+        }
+
+        private int GetTileNumber(int px)
+        {
+            return px / sizeOfTile;
         }
     }
 }
