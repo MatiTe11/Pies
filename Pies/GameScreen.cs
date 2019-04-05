@@ -16,24 +16,37 @@ namespace Pies
         private const int sizeOfBoardX = 10;
         private const int sizeOfBoardY = 10;
 
+        private float textureScale;
+
         private int firstTailPositionX;
         private int firstTailPositionY;
 
         private List<List<Tile>> tiles;
         InputManager inputManager;
-        int sizeOfTile;
-        Texture2D playerTex, doorTex, elevatorTex;
+        int sizeOfTile; //size in pixels
+        Texture2D playerTex, doorTex, elevatorTex, whiteDoor;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
             inputManager = new InputManager();
             tiles = new List<List<Tile>>();
 
-
+            if (screenHeight / sizeOfBoardY >= screenWidth / sizeOfBoardX)
+            {
+                this.sizeOfTile = (int)(screenWidth / sizeOfBoardX);
+            }
+            else
+            {
+                this.sizeOfTile = (int)(screenHeight / sizeOfBoardY);
+            }
         }
 
         override public void LoadContent(ContentManager Content) 
         {
+            whiteDoor = Content.Load<Texture2D>("Graphic/DrzwiBiale");
+            //texture scale counting
+            this.textureScale = whiteDoor.Width / this.sizeOfTile;
+
             playerTex = Content.Load<Texture2D>("player");
             elevatorTex = Content.Load<Texture2D>("elevator");
             doorTex = Content.Load<Texture2D>("door");
