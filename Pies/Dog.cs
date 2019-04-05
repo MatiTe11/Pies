@@ -50,6 +50,7 @@ namespace Pies
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
+            CheckIfPathIsEmpty();
         }
 
         public int PosX
@@ -74,15 +75,15 @@ namespace Pies
         {
             if (path.Count() == 0)
             {
-                // Generate path
+                GeneratePath();
             }
         }
 
         private void UpdatePath()
         {
             // to nie działa XD
-            int newX = dogPositionX/sizeOfTile;
-            int newY = dogPositionY/sizeOfTile;
+            int newX = dogPositionX / sizeOfTile;
+            int newY = dogPositionY / sizeOfTile;
             if (newX != posX)
             {
                 posX = newX;
@@ -98,12 +99,149 @@ namespace Pies
             }
         }
 
-        private void GeneratePath(List<Direction> path)
+        private void GeneratePath()
         {
+            int destX;
+            int destY;
 
+            Random rand = new Random();
+            while (true)
+            {
+                destX = rand.Next(0, boardSizeX);
+                destY = rand.Next(0, boardSizeY);
+                bool s = false;
+                bool d = false;
+                if ((board[destX][destY]) is TileDoors)
+                {
+                    d = true;
+                }
+                for (int i = 0; i < shit.Count(); i++)
+                {
+                    if (shit[i].positionX == destX && shit[i].positionY == destY)
+                    {
+                        s = true;
+                        break;
+                    }
+                }
+                if (s == false && d == true)
+                {
+                    break;
+                }
+            }
+            int maxSteps = (Math.Abs(posX - destX) + Math.Abs(posY - destY) + 5);
+            path = GenerateStep(path, destX, destY, posX, posY, posX, posY, maxSteps);
         }
 
+        private List<Direction> GenerateStep(List<Direction> path, int destX, int destY, int currentX, int currentY, int prevX, int prevY, int maxSteps)
+        {
+            if (path.Count() == maxSteps)
+            {
+                path.RemoveRange(0, path.Count() - 1);
+                return path;
+            }
 
+            if (destX == currentX && destY == currentY)
+            {
+                return path;
+            }
 
+            List<Direction> pathU = path;
+            List<Direction> pathD = path;
+            List<Direction> pathL = path;
+            List<Direction> pathR = path;
+
+            pathU.Add(Direction.Up);
+            pathD.Add(Direction.Down);
+            pathL.Add(Direction.Left);
+            pathR.Add(Direction.Right);
+
+            if (currentY - 1 >= 0 && (!(board[currentX][currentY - 1] is TileEmpty)) && currentY - 1 != prevY)
+            {
+                GenerateStep(pathU, destX, destY, currentX, currentY - 1, currentX, currentY, maxSteps);
+            }
+            else
+            {
+                pathU.RemoveRange(0, path.Count() - 1);
+            }
+            if (currentY + 1 < boardSizeY && (!(board[currentX][currentY + 1] is TileEmpty)) && currentY + 1 != prevY)
+            {
+                GenerateStep(pathD, destX, destY, currentX, currentY + 1, currentX, currentY, maxSteps);
+            }
+            else
+            {
+                pathD.RemoveRange(0, path.Count() - 1);
+            }
+            if (currentX - 1 >= 0 && (!(board[currentX - 1][currentY] is TileEmpty)) && currentX - 1 != prevX)
+            {
+                GenerateStep(pathL, destX, destY, currentX - 1, currentY, currentX, currentY, maxSteps);
+            }
+            else
+            {
+                pathD.RemoveRange(0, path.Count() - 1);
+            }
+            if (currentX + 1 < boardSizeX && (!(board[currentX + 1][currentY] is TileEmpty)) && currentX + 1 != prevX)
+            {
+                GenerateStep(pathR, destX, destY, currentX + 1, currentY, currentX, currentY, maxSteps);
+            }
+            else
+            {
+                pathR.RemoveRange(0, path.Count() - 1);
+            }
+
+            int lU;
+            int lD;
+            int lL;
+            int lR;
+            if (pathU.Count() == 0)
+            {
+                lU = maxSteps + 1;
+            }
+            else
+            {
+                lU = pathU.Count();
+            }
+            if (pathD.Count() == 0)
+            {
+                lD = maxSteps + 1;
+            }
+            else
+            {
+                lD = pathU.Count();
+            }
+            if (pathL.Count() == 0)
+            {
+                lL = maxSteps + 1;
+            }
+            else
+            {
+                lL = pathU.Count();
+            }
+            if (pathR.Count() == 0)
+            {
+                lR = maxSteps + 1;
+            }
+            else
+            {
+                lR = pathU.Count();
+            }
+            if (lU <= lD && lU <= lR && lU <= lL)
+            {
+                return pathU;
+            }
+            if (lD <= lU && lD <= lR && lD <= lL)
+            {
+                return pathD;
+            }
+            if (lL <= lU && lL <= lR && lL <= lD)
+            {
+                return pathL;
+            }
+            if (lR <= lU && lR <= lD && lR <= lL)
+            {
+                return pathR;
+            }
+            return pathU;
+        }
     }
+
 }
