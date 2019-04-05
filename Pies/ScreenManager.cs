@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Pies
 {
@@ -19,24 +20,26 @@ namespace Pies
         {
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
+            activeScreen = 0;
+            screens.Add(new GameScreen(screenWidth, screenHeight));
         }
 
-        public void LoadContent()
+        public void LoadContent(ContentManager content)
         {
             foreach(Screen s in screens)
             {
-                s.LoadContent();
+                s.LoadContent(content);
             }
         }
 
         public void Update(GameTime gameTime)
         {
-
+            screens[activeScreen].Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
+            screens[activeScreen].Draw(spriteBatch);
         }
     }
 }

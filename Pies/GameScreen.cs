@@ -22,7 +22,7 @@ namespace Pies
         private List<List<Tile>> tiles;
         InputManager inputManager;
         int sizeOfTile;
-        Texture2D playerTex, doorTex, elevatorTex;
+        Texture2D playerTex, doorTex, elevatorTex, emptyTex;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
@@ -82,7 +82,8 @@ namespace Pies
 
         override public void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            DrawBoard(spriteBatch);
+            DrawPlayer(spriteBatch);
         }
 
         private int GetTileNumber(int px)
@@ -93,7 +94,24 @@ namespace Pies
         private void DrawPlayer(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(playerTex, position, null, Color.White, angle, new Vector2(bathTex2.Width / 2, bathTex2.Height / 2), scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+            spriteBatch.End();
+        }
+        private void DrawBoard(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            for (int i = 0; i < sizeOfBoardX; i++)
+            {
+                for (int j = 0; j < sizeOfBoardY; j++)
+                {
+                    if (tiles[i][j] is TileDoors)
+                        spriteBatch.Draw(doorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                    else if (tiles[i][j] is TileStairs)
+                        spriteBatch.Draw(elevatorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                    else if (tiles[i][j] is TileEmpty)
+                        spriteBatch.Draw(emptyTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                }
+            }
             spriteBatch.End();
         }
     }
