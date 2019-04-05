@@ -14,7 +14,6 @@ namespace Pies
         private Tile[,] tiles = new Tile[10,10];
         InputManager inputManager;
         int sizeOfTile;
-        int 
 
         public GameScreen()
         {
