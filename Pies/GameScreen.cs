@@ -15,6 +15,10 @@ namespace Pies
         private Player dog;
         private const int sizeOfBoardX = 10;
         private const int sizeOfBoardY = 10;
+
+        private int firstTailPositionX;
+        private int firstTilePositionY;
+
         private List<List<Tile>> tiles;
         InputManager inputManager;
         int sizeOfTile;
