@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="board\Class1.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="IInputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IScreen.cs" />
