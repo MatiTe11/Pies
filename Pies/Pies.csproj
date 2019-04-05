@@ -68,6 +68,21 @@
     <Content Include="Content\doors.png" />
     <Content Include="Content\elevator.png" />
     <Content Include="Content\player.png" />
+    <Content Include="Graphics\DrzwiBiale.png" />
+    <Content Include="Graphics\DrzwiCzerwone.png" />
+    <Content Include="Graphics\DrzwiNiebieskie.png" />
+    <Content Include="Graphics\Kupsko.png" />
+    <Content Include="Graphics\Kupsko2.png" />
+    <Content Include="Graphics\PiesL0.png" />
+    <Content Include="Graphics\PiesL1.png" />
+    <Content Include="Graphics\piesL2.png" />
+    <Content Include="Graphics\PiesP0.png" />
+    <Content Include="Graphics\PiesP1.png" />
+    <Content Include="Graphics\PiesP2.png" />
+    <Content Include="Graphics\PiesSra0.png" />
+    <Content Include="Graphics\PiesSra1.png" />
+    <Content Include="Graphics\PiesSra2.png" />
+    <Content Include="Graphics\PiesSra3.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
