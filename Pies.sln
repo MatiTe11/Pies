@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pies", "Pies\Pies.csproj", "{0B6D077C-8C7D-4A9A-8C33-871807A39DA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B6D077C-8C7D-4A9A-8C33-871807A39DA5}.Debug|x86.ActiveCfg = Debug|x86
+		{0B6D077C-8C7D-4A9A-8C33-871807A39DA5}.Debug|x86.Build.0 = Debug|x86
+		{0B6D077C-8C7D-4A9A-8C33-871807A39DA5}.Release|x86.ActiveCfg = Release|x86
+		{0B6D077C-8C7D-4A9A-8C33-871807A39DA5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC9E17DB-3C8D-4B79-91DF-2A2960EB1D53}
+	EndGlobalSection
+EndGlobal
