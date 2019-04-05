@@ -11,6 +11,7 @@ namespace Pies
 {
     interface IScreen
     {
+        void LoadContent();
         void Update(GameTime gameTime);
         void Reset();
         void Draw(SpriteBatch spriteBatch);
