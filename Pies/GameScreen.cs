@@ -93,7 +93,7 @@ namespace Pies
             {
                 if (!player.isMoving && tiles[GetTileNumber(player.PosX)][ GetTileNumber(player.PosY)] is TileStairs)
                 {
-                    player.Move(Direction.Up);
+                    player.Move(Direction.Down);
                 }
             }
         }
