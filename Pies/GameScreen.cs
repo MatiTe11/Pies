@@ -11,10 +11,12 @@ namespace Pies
     class GameScreen : IScreen
     {
         private Player player;
-        private Tile[,] tiles = new Tile[10,10];
+        private Player dog;
+        private const int sizeOfBoardX = 10;
+        private const int sizeOfBoardY = 10;
+        private Tile[,] tiles = new Tile[sizeOfBoardX,sizeOfBoardY];
         InputManager inputManager;
         int sizeOfTile;
-        int 
 
         public GameScreen()
         {
@@ -33,14 +35,19 @@ namespace Pies
 
         public void Update(GameTime gameTime)
         {
+            inputManager.Update();
             player.Update(gameTime);
+
             if(inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
                 player.Move(Direction.Left);
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                player.Move(Direction.Right);
+                if (!player.isMoving() && player.GetTileX())
+                {
+                    player.Move(Direction.Right);
+                }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
