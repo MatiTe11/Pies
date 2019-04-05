@@ -11,10 +11,14 @@ namespace Pies
     class GameScreen : IScreen
     {
         private Player player;
+        private Tile[,] tiles = new Tile[10,10];
+        InputManager inputManager;
+        int sizeOfTile;
+        int 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public GameScreen()
         {
-            throw new NotImplementedException();
+
         }
 
         public void LoadContent()
@@ -28,6 +32,28 @@ namespace Pies
         }
 
         public void Update(GameTime gameTime)
+        {
+            player.Update(gameTime);
+            if(inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
+            {
+                player.Move(Direction.Left);
+            }
+            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
+            {
+                player.Move(Direction.Right);
+            }
+            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
+            {
+                player.Move(Direction.Up);
+            }
+            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
+            {
+                player.Move(Direction.Down);
+            }
+            throw new NotImplementedException();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

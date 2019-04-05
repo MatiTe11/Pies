@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Direction.cs" />
     <Compile Include="TileDoors.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Player.cs" />
