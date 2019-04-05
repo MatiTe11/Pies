@@ -42,6 +42,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Shit.cs" />
+    <Compile Include="TileEmpty.cs" />
+    <Compile Include="Dog.cs" />
     <Compile Include="TileStairs.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="TileDoors.cs" />
