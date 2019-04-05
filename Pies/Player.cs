@@ -15,10 +15,12 @@ namespace Pies
     {
         protected int playerPositionX;
         protected int playerPositionY;
+
+        public int changePositionX;
+        public int changePositionY;
+
         public int playerSpeed;
         public int sizeOfTile;
-
-        protected int keyPressed;
 
         public Player() {}
 
@@ -28,16 +30,38 @@ namespace Pies
             this.playerPositionY = y;
             this.playerSpeed = speed;
             this.sizeOfTile = sizeOfTile;
+            this.changePositionX = 0;
+            this.changePositionY = 0;
         }
-        public void Move(int x, int y)
+        public void Move(Direction direction)
         {
-            this.playerPositionX = this.playerPositionX + x;
-            this.playerPositionY = this.playerPositionY + y;
-           
+            if(direction == Direction.Up)
+            {
+                this.changePositionY -= sizeOfTile;
+            }
+            else if(direction == Direction.Down)
+            {
+                this.changePositionY += sizeOfTile;
+            }
+            else if (direction == Direction.Left)
+            {
+                this.changePositionX -= sizeOfTile;
+            }
+            else if (direction == Direction.Right)
+            {
+                this.changePositionX += sizeOfTile;
+            }
+
         }
         public void Update(GameTime gameTime)
         {
 
+        }
+
+        public bool isMoving()
+        {
+
+            return false;
         }
 
         public int PosX
