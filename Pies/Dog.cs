@@ -25,6 +25,7 @@ namespace Pies
         private List<Direction> path;
         private List<List<Tile>> board;
 
+
         public Dog(int x, int y, int speed, int List, int sizeOfTile, List<List<Tile>> board)
         {
             this.dogPositionX = x;
@@ -35,6 +36,8 @@ namespace Pies
             this.sizeOfTile = sizeOfTile;
             this.path = new List<Direction>();
             this.board = board;
+            this.boardSizeX = board.Count();
+            this.boardSizeY = board.ElementAt(0).Count();
         }
         public void Move(int x, int y)
         {
@@ -95,6 +98,7 @@ namespace Pies
 
         private void GeneratePath(List<Direction> path)
         {
+
 
         }
 
