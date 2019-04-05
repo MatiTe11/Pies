@@ -8,6 +8,7 @@ namespace Pies
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    /// pozdro
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
