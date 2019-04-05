@@ -54,7 +54,7 @@ namespace Pies
             elevatorTex = Content.Load<Texture2D>("elevator");
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
-            this.textureScale = emptyTex.Width / this.sizeOfTile;
+            this.textureScale = (float)emptyTex.Width / (float)this.sizeOfTile;
             player = new Player(10, 10, 0.5f, sizeOfTile);
         }
 
