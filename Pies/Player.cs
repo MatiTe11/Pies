@@ -78,8 +78,8 @@ namespace Pies
                 {
                     if (this.downRight) //move right
                     {
-                        this.playerPositionX += (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                        this.changePositionX -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.playerPositionX += (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionX -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if(changePositionX < 0)
                         {
                             this.playerPositionX -= this.changePositionX;
@@ -101,8 +101,8 @@ namespace Pies
                 {
                     if (this.downRight) //move down
                     {
-                        this.playerPositionY += (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                        this.changePositionY -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.playerPositionY += (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionY -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
                             this.playerPositionY -= this.changePositionY;
@@ -111,8 +111,8 @@ namespace Pies
                     }
                     else //move up
                     {
-                        this.playerPositionY -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                        this.changePositionY -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.playerPositionY -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionY -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
                             this.playerPositionY += this.changePositionY;
@@ -144,7 +144,7 @@ namespace Pies
             set { playerPositionY = value; }
         }
 
-        public int Speed
+        public float Speed
         {
             get { return playerSpeed; }
             set { playerSpeed = value; }
