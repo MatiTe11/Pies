@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Pies
 {
-    class GameScreen : IScreen
+    class GameScreen : Screen
     {
         private Player player;
         private Player dog;
@@ -20,24 +20,25 @@ namespace Pies
         int sizeOfTile;
         Texture2D playerTex, doorTex, elevatorTex;
 
-        public GameScreen()
+        public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
+            inputManager = new InputManager();
             tiles = new List<List<Tile>>();
         }
 
-        public void LoadContent(ContentManager Content)
+        override public void LoadContent(ContentManager Content) 
         {
             playerTex = Content.Load<Texture2D>("player");
             elevatorTex = Content.Load<Texture2D>("elevator");
             doorTex = Content.Load<Texture2D>("door");
         }
 
-        public void Reset()
+        override public void Reset()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(GameTime gameTime)
+        override public void Update(GameTime gameTime)
         {
             inputManager.Update();
             player.Update(gameTime);
@@ -73,7 +74,7 @@ namespace Pies
             throw new NotImplementedException();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

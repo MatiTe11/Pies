@@ -11,7 +11,7 @@ namespace Pies
 {
     class ScreenManager
     {
-        List<IScreen> screens;
+        List<Screen> screens;
         int activeScreen;
         int screenWidth, screenHeight;
 
@@ -23,7 +23,7 @@ namespace Pies
 
         public void LoadContent()
         {
-            foreach(IScreen s in screens)
+            foreach(Screen s in screens)
             {
                 s.LoadContent();
             }
