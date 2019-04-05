@@ -17,7 +17,7 @@ namespace Pies
         private const int sizeOfBoardY = 10;
 
         private int firstTailPositionX;
-        private int firstTilePositionY;
+        private int firstTailPositionY;
 
         private List<List<Tile>> tiles;
         InputManager inputManager;
@@ -28,6 +28,8 @@ namespace Pies
         {
             inputManager = new InputManager();
             tiles = new List<List<Tile>>();
+
+
         }
 
         override public void LoadContent(ContentManager Content) 
