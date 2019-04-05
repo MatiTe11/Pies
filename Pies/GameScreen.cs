@@ -13,8 +13,8 @@ namespace Pies
     {
         private Player player;
         private Player dog;
-        private const int sizeOfBoardX = 10;
-        private const int sizeOfBoardY = 10;
+        private const int sizeOfBoardX = 3;
+        private const int sizeOfBoardY = 3;
 
         private float textureScale;
 
@@ -24,10 +24,11 @@ namespace Pies
         private List<List<Tile>> tiles;
         InputManager inputManager;
         int sizeOfTile; //size in pixels
-        Texture2D playerTex, doorTex, elevatorTex, whiteDoor;
+        Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
+            
             inputManager = new InputManager();
             tiles = new List<List<Tile>>();
 
@@ -39,17 +40,22 @@ namespace Pies
             {
                 this.sizeOfTile = (int)(screenHeight / sizeOfBoardY);
             }
+
+            LoadMap();
         }
 
         override public void LoadContent(ContentManager Content) 
         {
-            whiteDoor = Content.Load<Texture2D>("Graphic/DrzwiBiale");
+            //whiteDoor = Content.Load<Texture2D>("Graphic/DrzwiBiale");
             //texture scale counting
-            this.textureScale = whiteDoor.Width / this.sizeOfTile;
+            
 
             playerTex = Content.Load<Texture2D>("player");
             elevatorTex = Content.Load<Texture2D>("elevator");
-            doorTex = Content.Load<Texture2D>("door");
+            doorTex = Content.Load<Texture2D>("doors");
+            emptyTex = Content.Load<Texture2D>("empty");
+            this.textureScale = emptyTex.Width / this.sizeOfTile;
+            player = new Player(10, 10, 0.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -90,7 +96,6 @@ namespace Pies
                     player.Move(Direction.Up);
                 }
             }
-            throw new NotImplementedException();
         }
 
         override public void Draw(SpriteBatch spriteBatch)
@@ -107,7 +112,7 @@ namespace Pies
         private void DrawPlayer(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawBoard(SpriteBatch spriteBatch)
@@ -118,14 +123,32 @@ namespace Pies
                 for (int j = 0; j < sizeOfBoardY; j++)
                 {
                     if (tiles[i][j] is TileDoors)
-                        spriteBatch.Draw(doorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(doorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0,0), new Vector2(textureScale), SpriteEffects.None, 0f);
                     else if (tiles[i][j] is TileStairs)
-                        spriteBatch.Draw(elevatorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(elevatorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                     else if (tiles[i][j] is TileEmpty)
-                        spriteBatch.Draw(emptyTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0, 0, scale, SpriteEffects.None, 0f);
+                        spriteBatch.Draw(emptyTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                 }
             }
             spriteBatch.End();
+        }
+
+        private void LoadMap()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                tiles.Add(new List<Tile>());
+            }
+
+            foreach (var elem in tiles)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    elem.Add(new TileStairs(0, 0, 0));
+                }
+                
+            }
+
         }
     }
 }

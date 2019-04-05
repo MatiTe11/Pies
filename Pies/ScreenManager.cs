@@ -18,6 +18,7 @@ namespace Pies
 
         public ScreenManager(int screenWidth, int screenHeight)
         {
+            screens = new List<Screen>();
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             activeScreen = 0;
