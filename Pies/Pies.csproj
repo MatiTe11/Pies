@@ -41,8 +41,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Player.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="IInputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IScreen.cs" />

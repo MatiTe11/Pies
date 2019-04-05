@@ -9,10 +9,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pies
 {
-    interface IScreen
+    interface IInputManager
     {
-        void Update(GameTime gameTime);
-        void Reset();
-        void Draw(SpriteBatch spriteBatch);
+        bool isKeyPressed(Keys key);
     }
 }
