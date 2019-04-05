@@ -13,7 +13,7 @@ namespace Pies
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        //tfyfyj
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
