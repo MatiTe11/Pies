@@ -13,11 +13,19 @@ namespace Pies
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ScreenManager screenManager;
+        Vector2 resolution;
         //tfyfyj
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            resolution.X = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            resolution.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferHeight = (int)resolution.Y;
+            graphics.PreferredBackBufferWidth = (int)resolution.X;
+            graphics.IsFullScreen = false;
+            screenManager = new ScreenManager((int)resolution.X, (int)resolution.Y);
         }
 
         /// <summary>
@@ -41,6 +49,7 @@ namespace Pies
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            screenManager.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -65,7 +74,7 @@ namespace Pies
                 Exit();
 
             // TODO: Add your update logic here
-
+            screenManager.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -78,6 +87,7 @@ namespace Pies
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            screenManager.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
