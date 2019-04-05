@@ -24,9 +24,10 @@ namespace Pies
         private int boardSizeY;
         private List<Direction> path;
         private List<List<Tile>> board;
+        private List<Shit> shit;
 
 
-        public Dog(int x, int y, int speed, int List, int sizeOfTile, List<List<Tile>> board)
+        public Dog(int x, int y, int speed, int List, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
@@ -35,6 +36,7 @@ namespace Pies
             this.dogSpeed = speed;
             this.sizeOfTile = sizeOfTile;
             this.path = new List<Direction>();
+            this.shit = shit;
             this.board = board;
             this.boardSizeX = board.Count();
             this.boardSizeY = board.ElementAt(0).Count();
@@ -45,9 +47,9 @@ namespace Pies
             this.dogPositionY = this.dogPositionY + y;
 
         }
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, List<Shit> shit)
         {
-
+            this.shit = shit;
         }
 
         public int PosX
@@ -98,7 +100,6 @@ namespace Pies
 
         private void GeneratePath(List<Direction> path)
         {
-
 
         }
 
