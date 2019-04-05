@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Pies
 {
+    //kom deny
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
