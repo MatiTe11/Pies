@@ -62,6 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\doors.png" />
+    <Content Include="Content\elevator.png" />
+    <Content Include="Content\player.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

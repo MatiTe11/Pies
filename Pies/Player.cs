@@ -19,7 +19,7 @@ namespace Pies
         public int changePositionX;
         public int changePositionY;
 
-        public int playerSpeed;
+        public float playerSpeed;
         public int sizeOfTile;
 
         public bool downRight;
@@ -29,7 +29,7 @@ namespace Pies
 
         public Player() {}
 
-        public Player(int x, int y, int speed, int sizeOfTile)
+        public Player(int x, int y, float speed, int sizeOfTile)
         {
             this.playerPositionX = x;     
             this.playerPositionY = y;
@@ -88,8 +88,8 @@ namespace Pies
                     }
                     else //move left
                     {
-                        this.playerPositionX -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                        this.changePositionX -= (int)(playerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.playerPositionX -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionX -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionX < 0)
                         {
                             this.playerPositionX += this.changePositionX;
