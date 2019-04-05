@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace Pies.board
+namespace Pies
 {
     abstract class Tile
     {
@@ -54,9 +54,5 @@ namespace Pies.board
                 rec.Width = value;
             }
         }
-
-
     }
-
-
 }

@@ -3,23 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
+
 
 namespace Pies
 
 {
     class Player
     {
-        List<int> tailList = new List<int>();
         protected int playerPositionX;
         protected int playerPositionY;
+        public int playerSpeed;
+
+        protected int keyPressed;
 
         public Player() {}
 
-        public Player(int x, int y)
+        public Player(int x, int y, int speed)
         {
-            playerPositionX = x;
-            playerPositionY = y;
+            this.playerPositionX = x;     
+            this.playerPositionY = y;
+            this.playerSpeed = speed;
         }
+        public void Move(int x, int y)
+        {
+
+        }
+
+
         
     }
 }
