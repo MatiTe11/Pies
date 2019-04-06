@@ -91,7 +91,7 @@ namespace Pies
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                if (!player.isMoving && tiles[GetTileNumber(player.PosX)][ GetTileNumber(player.PosY)] is TileStairs && GetTileNumber(player.PosY) < sizeOfTile*(sizeOfBoardY-2))
+                if (!player.isMoving && tiles[GetTileNumber(player.PosX)][ GetTileNumber(player.PosY)] is TileStairs && GetTileNumber(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
                 }
