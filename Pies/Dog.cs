@@ -153,7 +153,7 @@ namespace Pies
                         this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.dogPositionY -= this.changePositionY;
+                            this.dogPositionY += this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }
@@ -163,7 +163,7 @@ namespace Pies
                         this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.dogPositionY += this.changePositionY;
+                            this.dogPositionY -= this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }
@@ -234,7 +234,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 4) % 4 != 0)
+            if (rand.Next(0, 4) % 4 > 0)
             {
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
@@ -259,7 +259,7 @@ namespace Pies
                 }
             }
 
-            if (rand.Next(0,2) % 2 == 0)
+            if (rand.Next(0,2) % 2 > 0)
             {
                 if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
                 {
