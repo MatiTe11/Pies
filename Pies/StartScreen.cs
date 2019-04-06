@@ -13,20 +13,32 @@ namespace Pies
     {
         private float scale;
         Texture2D screenTex;
+        bool spacePressed;
 
         public StartScreen(int screenW, int screenH) :base(screenW,screenH)
         {
-            
+            spacePressed = false;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Begin();
+            spriteBatch.Draw(screenTex, new Vector2(0,0), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+            spriteBatch.End();
+        }
+
+        public override int FinishedScreen()
+        {
+            if (spacePressed)
+                return 0;
+            else
+                return -1;
         }
 
         public override void LoadContent(ContentManager Content)
         {
             screenTex = Content.Load<Texture2D>("startScreen");
+            scale =  (float)screenWidth / (float)screenTex.Width;
         }
 
         public override void Reset()
@@ -36,7 +48,12 @@ namespace Pies
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            inputManager.Update();
+
+            if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            {
+                spacePressed = true;
+            }
         }
     }
 }

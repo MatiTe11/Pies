@@ -32,7 +32,7 @@ namespace Pies
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
-            inputManager = new InputManager();
+            
             tiles = new List<List<Tile>>();
             shits = new List<Shit>();
 
@@ -178,6 +178,11 @@ namespace Pies
             tiles[1][2] = Tile.StairsWall;
             tiles[1][2] = Tile.StairsWall;
 
+        }
+
+        public override int FinishedScreen()
+        {
+            return -1;
         }
     }
 }
