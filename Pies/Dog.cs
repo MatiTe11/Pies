@@ -38,18 +38,20 @@ namespace Pies
         public int changePositionY;
         public bool downRight;
         public bool upLeft;
-        private int startX;
-        private int startY;
+        private int firstTailPositionX;
+        private int firstTailPositionY;
 
         public bool isMoving;
 
 
-        public Dog(int x, int y, int startX, int startY, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
+        public Dog(int x, int y, int firstTailPositionX, int firstTailPositionY, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
-            this.posX = (dogPositionX - startX)/ sizeOfTile;
-            this.posY = (dogPositionY -startY)/ sizeOfTile;
+            this.posX = (x - firstTailPositionX + sizeOfTile / 2) / sizeOfTile;
+            this.posY = (y - firstTailPositionY + sizeOfTile / 2) / sizeOfTile;
+            this.firstTailPositionX = firstTailPositionX;
+            this.firstTailPositionY = firstTailPositionY;
             this.prevX = posX  - 1;
             this.prevY = posY;
             this.dogSpeed = speed;
@@ -104,8 +106,8 @@ namespace Pies
 
         private void UpdatePosition()
         {
-            int newPosX = (dogPositionX - startX) / sizeOfTile;
-            int newPosY = (dogPositionY - startY) / sizeOfTile;
+            int newPosX = (dogPositionX - firstTailPositionX + sizeOfTile / 2) / sizeOfTile;
+            int newPosY = (dogPositionY - firstTailPositionY + sizeOfTile / 2) / sizeOfTile;
             if (newPosX != posX || newPosY != posY)
             {
                 prevX = posX;
@@ -204,7 +206,7 @@ namespace Pies
         public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX+ sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 
