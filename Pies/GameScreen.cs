@@ -158,7 +158,7 @@ namespace Pies
         private void DrawDog(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX+sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawBoard(SpriteBatch spriteBatch)
