@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OverScreen.cs" />
     <Compile Include="PickingShitScreen.cs" />
     <Compile Include="Shit.cs" />
     <Compile Include="Dog.cs" />

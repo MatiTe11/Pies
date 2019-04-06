@@ -12,7 +12,7 @@ namespace Pies
 {
     enum ActiveScreen
     {
-        start, game
+        start, game, over
     };
 
     class ScreenManager
@@ -20,6 +20,7 @@ namespace Pies
         //List<Screen> screens;
         GameScreen gameScreen;
         StartScreen startScreen;
+        OverScreen overScreen;
         int screenWidth, screenHeight;
         ActiveScreen activeScreen;
 
@@ -31,12 +32,14 @@ namespace Pies
             activeScreen = ActiveScreen.start;
             gameScreen = new GameScreen(screenWidth, screenHeight);
             startScreen = new StartScreen(screenWidth, screenHeight);
+            overScreen = new OverScreen(screenWidth, screenHeight);
         }
 
         public void LoadContent(ContentManager content)
         {
             gameScreen.LoadContent(content);
             startScreen.LoadContent(content);
+            overScreen.LoadContent(content);
         }
 
         public void Update(GameTime gameTime)
@@ -56,6 +59,14 @@ namespace Pies
                     startScreen.Reset();
                 }
             }
+            else if (activeScreen == ActiveScreen.over)
+            {
+                if (startScreen.FinishedScreen() == 0)
+                {
+                    activeScreen = ActiveScreen.start;
+                    overScreen.Reset();
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -67,6 +78,10 @@ namespace Pies
             else if (activeScreen == ActiveScreen.start)
             {
                 startScreen.Draw(spriteBatch);
+            }
+            else if (activeScreen == ActiveScreen.over)
+            {
+                overScreen.Draw(spriteBatch);
             }
         }
     }
