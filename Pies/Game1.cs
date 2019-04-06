@@ -24,7 +24,7 @@ namespace Pies
             resolution.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferHeight = (int)resolution.Y;
             graphics.PreferredBackBufferWidth = (int)resolution.X;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             screenManager = new ScreenManager((int)resolution.X, (int)resolution.Y);
         }
 
