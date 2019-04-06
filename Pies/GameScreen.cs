@@ -25,13 +25,13 @@ namespace Pies
         private int firstTailPositionY;
 
         private List<List<Tile>> tiles;
-        InputManager inputManager;
+        
         int sizeOfTile; //size in pixels
         Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
-            inputManager = new InputManager();
+            
             tiles = new List<List<Tile>>();
 
             if (screenHeight / sizeOfBoardY >= screenWidth / sizeOfBoardX)
@@ -167,6 +167,11 @@ namespace Pies
             tiles[1][2] = Tile.StairsWall;
             tiles[1][2] = Tile.StairsWall;
 
+        }
+
+        public override int FinishedScreen()
+        {
+            return -1;
         }
     }
 }

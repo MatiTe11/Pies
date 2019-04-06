@@ -15,15 +15,19 @@ namespace Pies
         protected int screenWidth;
         protected int screenHeight;
 
+        protected InputManager inputManager;
+
         public Screen(int screenWidth, int screenHeight)
         {
             this.screenHeight = screenHeight;
             this.screenWidth = screenWidth;
+            inputManager = new InputManager();
         }
 
         public abstract void LoadContent(ContentManager Content);
         public abstract void Update(GameTime gameTime);
         public abstract void Reset();
         public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract int FinishedScreen();
     }
 }

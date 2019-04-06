@@ -81,6 +81,7 @@
     <Content Include="Content\SchodyZDrzwiami.png" />
     <Content Include="Content\SchodyZeSciana.png" />
     <Content Include="Content\Sciana.png" />
+    <Content Include="Content\startScreen.png" />
     <Content Include="Graphics\DrzwiBiale.png" />
     <Content Include="Graphics\DrzwiCzerwone.png" />
     <Content Include="Graphics\DrzwiNiebieskie.png" />
