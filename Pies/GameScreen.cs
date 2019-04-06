@@ -12,6 +12,7 @@ namespace Pies
 {
     class GameScreen : Screen
     {
+        public bool EndGame;
         private Player player;
         private PickingShitScreen pickingScreen;
         private Dog dog;
@@ -42,7 +43,8 @@ namespace Pies
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
-            
+            EndGame = false;
+
             tiles = new List<List<Tile>>();
             shits = new List<Shit>();
 
@@ -121,8 +123,10 @@ namespace Pies
             if (minigameRunning)
             {
                 pickingScreen.Update(gameTime);
-                if (pickingScreen.isEnd() > -1)
+                if (pickingScreen.isEnd() == 0)
                     minigameRunning = false;
+                else if (pickingScreen.isEnd() == 1)
+                    EndGame = true;
             }
             else
             {
@@ -133,6 +137,8 @@ namespace Pies
                 dog.IsShitting();
                 dog.Update(gameTime, shits);
                 Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
+                if (shitCounter > 8)
+                    EndGame = true;
                 if (shitsCollected >= 5)
                 {
                     dog.Speed = 3.0F;
@@ -182,7 +188,7 @@ namespace Pies
                         {
                             shits.RemoveAt(i);
                             shitsCollected++;
-                            if (shitCounter > 5)
+                            if (shitCounter > 3)
                             {
                                 pickingScreen.Reset(currentTile);
                                 minigameRunning = true;

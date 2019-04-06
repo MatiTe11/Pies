@@ -49,6 +49,8 @@ namespace Pies
             if(activeScreen == ActiveScreen.game)
             {
                 gameScreen.Update(gameTime);
+                if (gameScreen.EndGame)
+                    activeScreen = ActiveScreen.over;
             }
             else if(activeScreen == ActiveScreen.start)
             {
@@ -61,7 +63,7 @@ namespace Pies
             }
             else if (activeScreen == ActiveScreen.over)
             {
-                if (startScreen.FinishedScreen() == 0)
+                if (overScreen.FinishedScreen() == 0)
                 {
                     activeScreen = ActiveScreen.start;
                     overScreen.Reset();
