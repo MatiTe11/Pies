@@ -66,8 +66,7 @@ namespace Pies
             dogTex1 = Content.Load<Texture2D>("PiesL1");
             dogTex2 = Content.Load<Texture2D>("PiesP2");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
-            player = new Player(10, 10, 0.5f, sizeOfTile);
-            //dog = new Dog(10, 10, 0.5f, 0, sizeOfTile, tiles, new List<Shit>());
+            player = new Player(playerStartingPositionX, playerStartingPositionY, 0.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -79,8 +78,8 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
-            //dog.Update(gameTime, new List<Shit>());
-            Tile currentTile = tiles[GetTileNumber(player.PosX)][GetTileNumber(player.PosY)];
+
+            Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
@@ -98,14 +97,14 @@ namespace Pies
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumber(player.PosY) > 0)
+                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumberY(player.PosY) > 0)
                 {
                     player.Move(Direction.Up);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumber(player.PosY) < (sizeOfBoardY-1))
+                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
                 }
@@ -170,6 +169,9 @@ namespace Pies
 
         private void LoadMap()
         {
+     
+
+
             for (int i = 0; i < 10; i++)
             {
                 tiles.Add(new List<Tile>());
@@ -181,7 +183,7 @@ namespace Pies
                 {
                     elem.Add(Tile.Door1);
                 }
-                
+
             }
             tiles[1][0] = Tile.StairsWall;
             tiles[1][2] = Tile.StairsWall;
