@@ -58,7 +58,7 @@ namespace Pies
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
             player = new Player(10, 10, 0.5f, sizeOfTile);
-            dog = new Dog(10, 10, 0.5f, 0, sizeOfTile, tiles, new List<Shit>());
+            dog = new Dog(10, 10, 0.5f, sizeOfTile, tiles, new List<Shit>());
         }
 
         override public void Reset()

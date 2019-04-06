@@ -34,7 +34,7 @@ namespace Pies
         public bool isMoving;
 
 
-        public Dog(int x, int y, float speed, int List, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
+        public Dog(int x, int y, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
@@ -91,7 +91,7 @@ namespace Pies
         {
             this.shit = shit;
             this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
-            CheckIfPathIsEmpty();
+            //CheckIfPathIsEmpty();
 
 
 
@@ -150,11 +150,7 @@ namespace Pies
             }
             else
             {
-                if (CheckIfPathIsEmpty())
-                {
-                    Move(path.ElementAt(0));
-                    path.RemoveAt(0);
-                }
+                Move(Direction.Right);
             }
 
         }
