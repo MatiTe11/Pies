@@ -132,5 +132,20 @@ namespace Pies
             else
                 return false;
         }
+
+        public int isEnd()
+        {
+            if (handPosition + shitSize / 2 > screenWidth)
+            {
+                for (int i = 0; i < poos.Count; i++)
+                {
+                    if (poos[i].picked != true)
+                        return 1; //failed
+                }
+                return 0; //passed
+            }
+            else
+                return -1; //not end
+        }
     }
 }

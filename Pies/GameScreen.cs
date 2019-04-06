@@ -13,6 +13,7 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
+        private PickingShitScreen pickingScreen;
         private Dog dog;
         private int sizeOfBoardX = 3;
         private int sizeOfBoardY = 3;
@@ -38,6 +39,8 @@ namespace Pies
         Texture2D doorWhiteTex, doorRedTex, doorBlueTex, shitTex1, shitTex2, dogL0Tex, dogL2Tex, dogL1Tex, dogP0Tex, dogP1Tex, dogP2Tex, dogSta0Tex, dogSta1Tex, dogSta2Tex, dogSta3Tex, player0Tex, playerLTex, playerPTex, stairsWithDoorsTex, stairsWithWallTex, wallTex;
         SpriteFont font;
 
+        private bool minigameRunning;
+
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
             
@@ -59,7 +62,8 @@ namespace Pies
             playerStartingPositionX = firstTailPositionX;
             playerStartingPositionY = firstTailPositionY;
 
-
+            pickingScreen = new PickingShitScreen(screenWidth, screenHeight, 0.4f);
+            minigameRunning = false;
         }
 
         override public void LoadContent(ContentManager Content) 
@@ -95,6 +99,17 @@ namespace Pies
             player.LoadContent(playerFrames);
             dog.LoadContent(dogFrames);
 
+            List<Texture2D> doorsTex = new List<Texture2D>();
+            List<Texture2D> pooTex = new List<Texture2D>();
+
+            doorsTex.Add(doorWhiteTex);
+            doorsTex.Add(doorRedTex);
+            doorsTex.Add(doorBlueTex);
+            pooTex.Add(Content.Load<Texture2D>("Zolte"));
+            pooTex.Add(Content.Load<Texture2D>("Zielone"));
+
+            pickingScreen.LoadContent(pooTex, doorsTex, Content.Load<Texture2D>("hand"), Content.Load<Texture2D>("background"));
+            //pickingScreen.Reset(Tile.Door2);
         }
 
         override public void Reset()
@@ -104,63 +119,78 @@ namespace Pies
 
         override public void Update(GameTime gameTime)
         {
-            shits = dog.Shit;
-            inputManager.Update();
-            player.Update(gameTime);
-            shitCounter = shits.Count();
-            dog.IsShitting();
-            dog.Update(gameTime, shits);
-            Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
-            if ( shitsCollected >= 5)
+            if (minigameRunning)
             {
-                dog.Speed = 5.0F;
-                player.Speed = 3.0F;
+                pickingScreen.Update(gameTime);
+                if (pickingScreen.isEnd() > -1)
+                    minigameRunning = false;
             }
-            if (shitsCollected >= 10)
+            else
             {
-                dog.Speed = 10.0F;
-                player.Speed = 5.0F;
-            }
+                shits = dog.Shit;
+                inputManager.Update();
+                player.Update(gameTime);
+                shitCounter = shits.Count();
+                dog.IsShitting();
+                dog.Update(gameTime, shits);
+                Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
+                if (shitsCollected >= 5)
+                {
+                    dog.Speed = 5.0F;
+                    player.Speed = 3.0F;
+                }
+                if (shitsCollected >= 10)
+                {
+                    dog.Speed = 10.0F;
+                    player.Speed = 5.0F;
+                }
 
-            if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
-            {
-                if (!player.isMoving && GetTileNumberX(player.PosX) > 0 && tiles[GetTileNumberX(player.PosX) - 1][GetTileNumberY(player.PosY)] != Tile.Empty)
+                if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
                 {
-                    player.Move(Direction.Left);
-                }
-            }
-            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
-            {
-                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1 && tiles[GetTileNumberX(player.PosX) + 1][GetTileNumberY(player.PosY)] != Tile.Empty)
-                {
-                    player.Move(Direction.Right);
-                }
-            }
-            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
-            {
-                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumberY(player.PosY) > 0)
-                {
-                    player.Move(Direction.Up);
-                }
-            }
-            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
-            {
-                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
-                {
-                    player.Move(Direction.Down);
-                }
-            }
-            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
-            {
-                int pX = ((player.PosX - playerStartingPositionX) / sizeOfTile);
-                int pY = ((player.PosY - playerStartingPositionY) / sizeOfTile);
-                for (int i = 0; i < shits.Count(); i++)
-                {
-                    if (pX  == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
+                    if (!player.isMoving && GetTileNumberX(player.PosX) > 0 && tiles[GetTileNumberX(player.PosX) - 1][GetTileNumberY(player.PosY)] != Tile.Empty)
                     {
-                        shits.RemoveAt(i);
-                        shitsCollected++;
-                        break;
+                        player.Move(Direction.Left);
+                    }
+                }
+                else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
+                {
+                    if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1 && tiles[GetTileNumberX(player.PosX) + 1][GetTileNumberY(player.PosY)] != Tile.Empty)
+                    {
+                        player.Move(Direction.Right);
+                    }
+                }
+                else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
+                {
+                    if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumberY(player.PosY) > 0)
+                    {
+                        player.Move(Direction.Up);
+                    }
+                }
+                else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
+                {
+                    if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumberY(player.PosY) < (sizeOfBoardY - 1))
+                    {
+                        player.Move(Direction.Down);
+                    }
+                }
+                else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+                {
+                    int pX = ((player.PosX - playerStartingPositionX) / sizeOfTile);
+                    int pY = ((player.PosY - playerStartingPositionY) / sizeOfTile);
+                    for (int i = 0; i < shits.Count(); i++)
+                    {
+                        if (pX == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
+                        {
+                            shits.RemoveAt(i);
+                            shitsCollected++;
+                            if (shitCounter > 5)
+                            {
+                                pickingScreen.Reset(Tile.Door2);
+                                minigameRunning = true;
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
@@ -168,11 +198,18 @@ namespace Pies
 
         override public void Draw(SpriteBatch spriteBatch)
         {
-            DrawBoard(spriteBatch);
-            //DrawPlayer(spriteBatch);
-            player.Draw(spriteBatch, textureScale);
-            dog.Draw(spriteBatch, textureScale, sizeOfTile);
-            DrawCounter(spriteBatch);
+            if (minigameRunning)
+            {
+                pickingScreen.Draw(spriteBatch);
+            }
+            else
+            {
+                DrawBoard(spriteBatch);
+                //DrawPlayer(spriteBatch);
+                player.Draw(spriteBatch, textureScale);
+                dog.Draw(spriteBatch, textureScale, sizeOfTile);
+                DrawCounter(spriteBatch);
+            }
         }
 
         private int GetTileNumberX(int px)
