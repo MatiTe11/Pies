@@ -12,6 +12,7 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
+        private Dog dog;
         private const int sizeOfBoardX = 3;
         private const int sizeOfBoardY = 3;
 
@@ -62,7 +63,7 @@ namespace Pies
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
-            player = new Player(playerStartingPositionX, playerStartingPositionY, 50f, sizeOfTile);
+            player = new Player(10, 10, 0.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -74,6 +75,7 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
+            dog.Update(gameTime, new List<Shit>());
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {

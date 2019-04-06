@@ -18,7 +18,7 @@ namespace Pies
         private int dogPositionY;
         private int posX;
         private int posY;
-        private int dogSpeed;
+        public float dogSpeed;
         private int sizeOfTile;
         private int boardSizeX;
         private int boardSizeY;
@@ -26,9 +26,15 @@ namespace Pies
         private List<Direction> path;
         private List<List<Tile>> board;
         private List<Shit> shit;
+        public int changePositionX;
+        public int changePositionY;
+        public bool downRight;
+        public bool upLeft;
+
+        public bool isMoving;
 
 
-        public Dog(int x, int y, int speed, int List, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
+        public Dog(int x, int y, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
@@ -42,17 +48,111 @@ namespace Pies
             this.boardSizeX = board.Count();
             this.boardSizeY = board.ElementAt(0).Count();
         }
-        public void Move(int x, int y)
+
+        public void Move(Direction direction)
         {
-            this.dogPositionX = this.dogPositionX + x;
-            this.dogPositionY = this.dogPositionY + y;
+            if (direction == Direction.Up)
+            {
+                this.changePositionY += sizeOfTile;
+                this.isMoving = true;
+                this.downRight = false;
+                this.upLeft = true;
+            }
+            else if (direction == Direction.Down)
+            {
+                this.changePositionY += sizeOfTile;
+                this.isMoving = true;
+                this.upLeft = false;
+                this.downRight = true;
+            }
+            else if (direction == Direction.Left)
+            {
+                this.changePositionX += sizeOfTile;
+                this.isMoving = true;
+                this.downRight = false;
+                this.upLeft = true;
+            }
+            else if (direction == Direction.Right)
+            {
+                this.changePositionX += sizeOfTile;
+                this.downRight = true;
+                this.upLeft = false;
+                this.isMoving = true;
+            }
 
         }
+
+        public bool IsMoving()
+        {
+            return isMoving;
+        }
+
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
             this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
-            CheckIfPathIsEmpty();
+            //CheckIfPathIsEmpty();
+
+
+
+            if (this.IsMoving())
+            {
+                if (this.changePositionX > 0)
+                {
+                    if (this.downRight) //move right
+                    {
+                        this.dogPositionX += (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionX -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        if (changePositionX < 0)
+                        {
+                            this.dogPositionX -= this.changePositionX;
+                            this.changePositionX = 0;
+                        }
+                    }
+                    else //move left
+                    {
+                        this.dogPositionX -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionX -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        if (changePositionX < 0)
+                        {
+                            this.dogPositionX += this.changePositionX;
+                            this.changePositionX = 0;
+                        }
+                    }
+                }
+                else if (this.changePositionY > 0)
+                {
+                    if (this.downRight) //move down
+                    {
+                        this.dogPositionY += (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        if (changePositionY < 0)
+                        {
+                            this.dogPositionY -= this.changePositionY;
+                            this.changePositionY = 0;
+                        }
+                    }
+                    else //move up
+                    {
+                        this.dogPositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                        if (changePositionY < 0)
+                        {
+                            this.dogPositionY += this.changePositionY;
+                            this.changePositionY = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    this.isMoving = false;
+                }
+            }
+            else
+            {
+                Move(Direction.Right);
+            }
+
         }
 
         public int PosX
@@ -67,42 +167,27 @@ namespace Pies
             set { dogPositionY = value; }
         }
 
-        public int Speed
+        public float Speed
         {
             get { return dogSpeed; }
             set { dogSpeed = value; }
         }
 
-        private void CheckIfPathIsEmpty()
+        private bool CheckIfPathIsEmpty()
         {
             if (path.Count() == 0)
             {
                 if (shitTime == 0)
                 {
                     GeneratePath();
+                    return false;
                 }
+                return false;
             }
+            return true;
         }
 
-        private void UpdatePath()
-        {
-            // to nie działa XD
-            int newX = dogPositionX / sizeOfTile;
-            int newY = dogPositionY / sizeOfTile;
-            if (newX != posX)
-            {
-                posX = newX;
-                path.RemoveAt(path.Count - 1);
 
-                return;
-            }
-            if (newY != posY)
-            {
-                posY = newY;
-                path.RemoveAt(path.Count - 1);
-                return;
-            }
-        }
 
         private void GeneratePath()
         {

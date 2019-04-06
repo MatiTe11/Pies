@@ -67,7 +67,22 @@
   <ItemGroup>
     <Content Include="Content\doors.png" />
     <Content Include="Content\elevator.png" />
+    <Content Include="Content\Kupsko.png" />
+    <Content Include="Content\Kupsko2.png" />
+    <Content Include="Content\PiesL0.png" />
+    <Content Include="Content\PiesL1.png" />
+    <Content Include="Content\piesL2.png" />
+    <Content Include="Content\PiesP0.png" />
+    <Content Include="Content\PiesP1.png" />
+    <Content Include="Content\PiesP2.png" />
+    <Content Include="Content\PiesSra0.png" />
+    <Content Include="Content\PiesSra1.png" />
+    <Content Include="Content\PiesSra2.png" />
+    <Content Include="Content\PiesSra3.png" />
     <Content Include="Content\player.png" />
+    <Content Include="Content\SchodyZDrzwiami.png" />
+    <Content Include="Content\SchodyZeSciana.png" />
+    <Content Include="Content\Sciana.png" />
     <Content Include="Graphics\DrzwiBiale.png" />
     <Content Include="Graphics\DrzwiCzerwone.png" />
     <Content Include="Graphics\DrzwiNiebieskie.png" />
