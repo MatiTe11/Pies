@@ -39,6 +39,9 @@ namespace Pies
             {
                 this.sizeOfTile = (int)(screenHeight / sizeOfBoardY);
             }
+            firstTailPositionX = (int)((screenWidth-(sizeOfTile * sizeOfBoardX)) / 2);
+            firstTailPositionY = (int)((screenHeight-(sizeOfTile * sizeOfBoardY)) / 2);
+
 
             LoadMap();
         }
