@@ -95,6 +95,8 @@ namespace Pies
             inputManager.Update();
             player.Update(gameTime);
             dog.Update(gameTime, shits);
+            dog.IsShitting();
+            shits = dog.Shit;
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
