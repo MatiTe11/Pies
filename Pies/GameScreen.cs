@@ -17,6 +17,8 @@ namespace Pies
         private int sizeOfBoardX = 3;
         private int sizeOfBoardY = 3;
 
+        private float shitTime = 0.0f;
+
         private float textureScale;
 
         private int playerStartingPositionX;
@@ -204,6 +206,21 @@ namespace Pies
                         spriteBatch.Draw(stairsWithWallTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                     }
                 }
+
+                foreach (var shit in shits)
+                {
+                    shitTime += 1f;
+                    if (shitTime < 60f)
+                    {                
+                        spriteBatch.Draw(shitTex1, new Vector2(shit.positionX*sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(shitTex2, new Vector2(shit.positionX * sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                        if (shitTime == 120f) shitTime = 0.0f;
+                    }
+                }
+                
             }
             spriteBatch.End();
         }
@@ -258,9 +275,9 @@ namespace Pies
                     }
                 }
             }
-            
-
         }
+
+
 
         public override int FinishedScreen()
         {
