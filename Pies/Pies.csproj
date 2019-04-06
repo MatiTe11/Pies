@@ -77,6 +77,9 @@
     <Content Include="Content\PiesSra2.png" />
     <Content Include="Content\PiesSra3.png" />
     <Content Include="Content\player.png" />
+    <Content Include="Content\Player0.png" />
+    <Content Include="Content\PlayerL.png" />
+    <Content Include="Content\PlayerP.png" />
     <Content Include="Content\SchodyZDrzwiami.png" />
     <Content Include="Content\SchodyZeSciana.png" />
     <Content Include="Content\Sciana.png" />

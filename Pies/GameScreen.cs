@@ -70,7 +70,7 @@ namespace Pies
             dogSta1Tex = Content.Load<Texture2D>("PiesSra1");
             dogSta2Tex = Content.Load<Texture2D>("PiesSra2");
             dogSta3Tex = Content.Load<Texture2D>("PiesSra3");
-            player0Tex = Content.Load<Texture2D>("PlayerO");
+            player0Tex = Content.Load<Texture2D>("Player0.png");
             playerLTex = Content.Load<Texture2D>("PlayerL");
             playerPTex = Content.Load<Texture2D>("PlayerP");
             stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
