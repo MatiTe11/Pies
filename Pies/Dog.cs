@@ -40,16 +40,18 @@ namespace Pies
         public int changePositionY;
         public bool downRight;
         public bool upLeft;
+        private int startX;
+        private int startY;
 
         public bool isMoving;
 
 
-        public Dog(int x, int y, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
+        public Dog(int x, int y, int startX, int startY, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
-            this.posX = dogPositionX / sizeOfTile;
-            this.posY = dogPositionY / sizeOfTile;
+            this.posX = (dogPositionX - startX)/ sizeOfTile;
+            this.posY = (dogPositionY -startY)/ sizeOfTile;
             this.prevX = posX  - 1;
             this.prevY = posY;
             this.dogSpeed = speed;
@@ -106,8 +108,8 @@ namespace Pies
 
         private void UpdatePosition()
         {
-            int newPosX = dogPositionX / sizeOfTile;
-            int newPosY = dogPositionY / sizeOfTile;
+            int newPosX = (dogPositionX - startX) / sizeOfTile;
+            int newPosY = (dogPositionY - startY) / sizeOfTile;
             if (newPosX != posX || newPosY != posY)
             {
                 prevX = posX;
