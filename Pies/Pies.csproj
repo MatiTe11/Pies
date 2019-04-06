@@ -95,6 +95,12 @@
     <Content Include="Graphics\PiesSra1.png" />
     <Content Include="Graphics\PiesSra2.png" />
     <Content Include="Graphics\PiesSra3.png" />
+    <Content Include="Graphics\Player0.png" />
+    <Content Include="Graphics\PlayerL.png" />
+    <Content Include="Graphics\PlayerP.png" />
+    <Content Include="Graphics\SchodyZDrzwiami.png" />
+    <Content Include="Graphics\SchodyZeSciana.png" />
+    <Content Include="Graphics\Sciana.png" />
     <Content Include="Icon.ico" />
     <Content Include="Map.txt" />
   </ItemGroup>
