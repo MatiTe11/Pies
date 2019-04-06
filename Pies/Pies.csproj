@@ -64,8 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\background.png" />
+    <Content Include="Content\Czerwone.png" />
     <Content Include="Content\doors.png" />
     <Content Include="Content\elevator.png" />
+    <Content Include="Content\hand.png" />
     <Content Include="Content\Kupsko.png" />
     <Content Include="Content\Kupsko2.png" />
     <Content Include="Content\PiesL0.png" />
@@ -86,6 +89,8 @@
     <Content Include="Content\SchodyZeSciana.png" />
     <Content Include="Content\Sciana.png" />
     <Content Include="Content\startScreen.png" />
+    <Content Include="Content\Zielone.png" />
+    <Content Include="Content\Zolte.png" />
     <Content Include="Graphics\DrzwiBiale.png" />
     <Content Include="Graphics\DrzwiCzerwone.png" />
     <Content Include="Graphics\DrzwiNiebieskie.png" />
