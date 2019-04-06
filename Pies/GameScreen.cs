@@ -17,6 +17,7 @@ namespace Pies
         private int sizeOfBoardX = 3;
         private int sizeOfBoardY = 3;
 
+        private float shittingTime = 0.0f;
         private float shitTime = 0.0f;
 
         private float textureScale;
@@ -234,6 +235,20 @@ namespace Pies
                     }
                 }
 
+                if (dog.IsShitting())
+                {
+                    shittingTime += 1.0f;
+                    if (shittingTime <= 15.0f)
+                        spriteBatch.Draw(dogSta0Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 30.0f)
+                        spriteBatch.Draw(dogSta1Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 45.0f)
+                        spriteBatch.Draw(dogSta2Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 60.0f)
+                        spriteBatch.Draw(dogSta3Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else
+                        shittingTime = 0.0f;
+                }
                   
                 foreach (var shit in shits)
                 {
@@ -248,6 +263,7 @@ namespace Pies
                         if (shitTime == 120f*shits.Count) shitTime = 0.0f;
                     }
                 }
+            
                 
             }
             spriteBatch.End();

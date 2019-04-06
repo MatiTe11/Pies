@@ -19,6 +19,8 @@ namespace Pies
         int currentFrame;
         float totalTime;
 
+        private bool directionP;
+
         private int dogPositionX;
         private int dogPositionY;
         private int posX;
@@ -84,9 +86,11 @@ namespace Pies
                 this.isMoving = true;
                 this.downRight = false;
                 this.upLeft = true;
+                this.directionP = false;
             }
             else if (direction == Direction.Right)
             {
+                this.directionP = true;
                 this.changePositionX += sizeOfTile;
                 this.downRight = true;
                 this.upLeft = false;
@@ -135,7 +139,28 @@ namespace Pies
                 if (totalTime > 0.1f)
                 {
                     totalTime = 0;
-                    currentFrame++;
+                    if (directionP == false)
+                    {
+                        if (currentFrame < 2)
+                        {
+                            currentFrame++;
+                        }
+                        else
+                        {
+                            currentFrame = 0;
+                        }                
+                    }
+                    else
+                    {
+                        if (currentFrame > 4)
+                        {
+                            currentFrame = 3;
+                        }
+                        else
+                        {
+                            currentFrame++;
+                        }
+                    }
                 }
                 if (currentFrame == textures.Count())
                     currentFrame = 0;
@@ -201,9 +226,12 @@ namespace Pies
 
         public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX+ sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
-            spriteBatch.End();
+            if (!isShitting)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(textures[currentFrame], new Vector2(PosX + sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+                spriteBatch.End();
+            }
         }
 
         public int PosX
