@@ -43,7 +43,7 @@ namespace Pies
             this.dogPositionY = y;
             this.posX = dogPositionX / sizeOfTile;
             this.posY = dogPositionY / sizeOfTile;
-            this.prevX = posX + 1;
+            this.prevX = posX  - 1;
             this.prevY = posY;
             this.dogSpeed = speed;
             this.sizeOfTile = sizeOfTile;
@@ -52,10 +52,9 @@ namespace Pies
             this.board = board;
             shitTime = 0;
             isShitting = false;
-            //this.boardSizeX = board.Count();
-            //this.boardSizeY = board.ElementAt(0).Count();
-            this.boardSizeX = 3;
-            this.boardSizeY = 3;
+            this.boardSizeX = board.Count();
+            this.boardSizeY = board.ElementAt(0).Count();
+
         }
 
         public void Move(Direction direction)
@@ -234,8 +233,27 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
+            if (rand.Next(0, 5) == 0)
+            {
+                bool kupa = false;
+                foreach (Shit x in shit)
+                {
+                    if (x.positionX == posX && x.positionY == posY)
+                    {
+                        kupa = true;
+                        break;
+                    }
+                }
+                if (kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
+                {
+                    shitTime = 1;
+                    return;
+                }
+                return;
+            }
             if (rand.Next(0, 7) > 0)
             {
+
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
                 {
@@ -259,7 +277,7 @@ namespace Pies
                 }
 
             }
-            if (rand.Next(0,3) > 0)
+            else
             {
                 if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
                 {
@@ -281,20 +299,6 @@ namespace Pies
                     Move(Direction.Right);
                     return;
                 }
-                return;
-            }
-            bool kupa = false;
-            foreach (Shit x in shit)
-            {
-                if (x.positionX == posX && x.positionY == posY)
-                {
-                    kupa = true;
-                    break;
-                }
-            }
-            if(kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
-            {
-                shitTime = 1;
                 return;
             }
         }

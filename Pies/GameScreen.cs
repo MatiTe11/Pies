@@ -82,7 +82,7 @@ namespace Pies
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX,playerStartingPositionY,2.5f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX,playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
 
@@ -161,6 +161,7 @@ namespace Pies
             spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX+sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
+
         private void DrawBoard(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
