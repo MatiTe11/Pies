@@ -12,7 +12,7 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
-        //private Dog dog;
+        private Dog dog;
         private const int sizeOfBoardX = 3;
         private const int sizeOfBoardY = 3;
 
@@ -25,6 +25,7 @@ namespace Pies
         private int firstTailPositionY;
 
         private List<List<Tile>> tiles;
+        private List<Shit> shits;
         InputManager inputManager;
         int sizeOfTile; //size in pixels
         Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
@@ -33,6 +34,7 @@ namespace Pies
         {
             inputManager = new InputManager();
             tiles = new List<List<Tile>>();
+            shits = new List<Shit>();
 
             if (screenHeight / sizeOfBoardY >= screenWidth / sizeOfBoardX)
             {
@@ -63,6 +65,7 @@ namespace Pies
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
             player = new Player(playerStartingPositionX, playerStartingPositionY, 0.5f, sizeOfTile);
+            dog = new Dog(1, 1, 0.5f,sizeOfTile, tiles, shits);
         }
 
         override public void Reset()
@@ -74,6 +77,7 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
+            dog.Update(gameTime, shits);
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
@@ -110,6 +114,7 @@ namespace Pies
         {
             DrawBoard(spriteBatch);
             DrawPlayer(spriteBatch);
+            DrawDog(spriteBatch);
         }
 
         private int GetTileNumberX(int px)
@@ -125,6 +130,12 @@ namespace Pies
         {
             spriteBatch.Begin();
             spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.End();
+        }
+        private void DrawDog(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(doorTex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawBoard(SpriteBatch spriteBatch)

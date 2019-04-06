@@ -220,7 +220,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 4) % 2 != 1)
+            if (rand.Next(0, 4) % 4 != 1)
             {
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
