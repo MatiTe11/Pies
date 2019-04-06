@@ -18,6 +18,8 @@ namespace Pies
         private int dogPositionY;
         private int posX;
         private int posY;
+        private int prevX;
+        private int prevY;
         public float dogSpeed;
         private int sizeOfTile;
         private int boardSizeX;
@@ -40,13 +42,17 @@ namespace Pies
             this.dogPositionY = y;
             this.posX = dogPositionX / sizeOfTile;
             this.posY = dogPositionY / sizeOfTile;
+            this.prevX = posX;
+            this.prevY = posY;
             this.dogSpeed = speed;
             this.sizeOfTile = sizeOfTile;
             this.path = new List<Direction>();
             this.shit = shit;
             this.board = board;
-            this.boardSizeX = board.Count();
-            this.boardSizeY = board.ElementAt(0).Count();
+            //this.boardSizeX = board.Count();
+            //this.boardSizeY = board.ElementAt(0).Count();
+            this.boardSizeX = 3;
+            this.boardSizeY = 3;
         }
 
         public void Move(Direction direction)
@@ -87,14 +93,26 @@ namespace Pies
             return isMoving;
         }
 
+        private void UpdatePosition()
+        {
+            int newPosX = dogPositionX / sizeOfTile;
+            int newPosY = dogPositionY / sizeOfTile;
+            if (newPosX != posX || newPosY != posY)
+            {
+                prevX = posX;
+                prevY = posY;
+                posX = newPosX;
+                posY = newPosY;
+            }
+        }
+
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
             this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
-            //CheckIfPathIsEmpty();
 
-
-
+            UpdatePosition();
+      
             if (this.IsMoving())
             {
                 if (this.changePositionX > 0)
@@ -150,7 +168,7 @@ namespace Pies
             }
             else
             {
-                Move(Direction.Right);
+                CheckIfPathIsEmpty();
             }
 
         }
@@ -179,7 +197,7 @@ namespace Pies
             {
                 if (shitTime == 0)
                 {
-                    GeneratePath();
+                    GenerateMove();
                     return false;
                 }
                 return false;
@@ -187,150 +205,35 @@ namespace Pies
             return true;
         }
 
-
-
-        private void GeneratePath()
+        private void GenerateMove()
         {
-            int destX;
-            int destY;
-
             Random rand = new Random();
-            while (true)
+            if (rand.Next(0, 4) % 2 != 1)
             {
-                destX = rand.Next(0, boardSizeX);
-                destY = rand.Next(0, boardSizeY);
-                bool s = false;
-                bool d = false;
-                if ((board[destX][destY]) is TileDoors)
+                int dir = rand.Next(0, 4);
+                if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
                 {
-                    d = true;
+                    Move(Direction.Up);
+                    return;
                 }
-                for (int i = 0; i < shit.Count(); i++)
+                if (dir == 0 && posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
                 {
-                    if (shit[i].positionX == destX && shit[i].positionY == destY)
-                    {
-                        s = true;
-                        break;
-                    }
+                    Move(Direction.Down);
+                    return;
                 }
-                if (s == false && d == true)
+                if (dir == 0 && posX - 1 >= 0 && board[posX - 1][posY] != Tile.Empty && !(posX - 1 == prevX && posY == prevY))
                 {
-                    break;
+                    Move(Direction.Left);
+                    return;
+                }
+                if (dir == 0 && posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
+                {
+                    Move(Direction.Right);
+                    return;
                 }
             }
-            int maxSteps = (Math.Abs(posX - destX) + Math.Abs(posY - destY) + 5);
-            path = GenerateStep(path, destX, destY, posX, posY, posX, posY, maxSteps);
-        }
 
-        private List<Direction> GenerateStep(List<Direction> path, int destX, int destY, int currentX, int currentY, int prevX, int prevY, int maxSteps)
-        {
-            if (path.Count() == maxSteps)
-            {
-                path.RemoveRange(0, path.Count() - 1);
-                return path;
-            }
 
-            if (destX == currentX && destY == currentY)
-            {
-                return path;
-            }
-
-            List<Direction> pathU = path;
-            List<Direction> pathD = path;
-            List<Direction> pathL = path;
-            List<Direction> pathR = path;
-
-            pathU.Add(Direction.Up);
-            pathD.Add(Direction.Down);
-            pathL.Add(Direction.Left);
-            pathR.Add(Direction.Right);
-
-            if (currentY - 1 >= 0 && (!(board[currentX][currentY - 1] is TileEmpty)) && currentY - 1 != prevY)
-            {
-                GenerateStep(pathU, destX, destY, currentX, currentY - 1, currentX, currentY, maxSteps);
-            }
-            else
-            {
-                pathU.RemoveRange(0, path.Count() - 1);
-            }
-            if (currentY + 1 < boardSizeY && (!(board[currentX][currentY + 1] is TileEmpty)) && currentY + 1 != prevY)
-            {
-                GenerateStep(pathD, destX, destY, currentX, currentY + 1, currentX, currentY, maxSteps);
-            }
-            else
-            {
-                pathD.RemoveRange(0, path.Count() - 1);
-            }
-            if (currentX - 1 >= 0 && (!(board[currentX - 1][currentY] is TileEmpty)) && currentX - 1 != prevX)
-            {
-                GenerateStep(pathL, destX, destY, currentX - 1, currentY, currentX, currentY, maxSteps);
-            }
-            else
-            {
-                pathD.RemoveRange(0, path.Count() - 1);
-            }
-            if (currentX + 1 < boardSizeX && (!(board[currentX + 1][currentY] is TileEmpty)) && currentX + 1 != prevX)
-            {
-                GenerateStep(pathR, destX, destY, currentX + 1, currentY, currentX, currentY, maxSteps);
-            }
-            else
-            {
-                pathR.RemoveRange(0, path.Count() - 1);
-            }
-
-            int lU;
-            int lD;
-            int lL;
-            int lR;
-            if (pathU.Count() == 0)
-            {
-                lU = maxSteps + 1;
-            }
-            else
-            {
-                lU = pathU.Count();
-            }
-            if (pathD.Count() == 0)
-            {
-                lD = maxSteps + 1;
-            }
-            else
-            {
-                lD = pathU.Count();
-            }
-            if (pathL.Count() == 0)
-            {
-                lL = maxSteps + 1;
-            }
-            else
-            {
-                lL = pathU.Count();
-            }
-            if (pathR.Count() == 0)
-            {
-                lR = maxSteps + 1;
-            }
-            else
-            {
-                lR = pathU.Count();
-            }
-            if (lU <= lD && lU <= lR && lU <= lL)
-            {
-                return pathU;
-            }
-            if (lD <= lU && lD <= lR && lD <= lL)
-            {
-                return pathD;
-            }
-            if (lL <= lU && lL <= lR && lL <= lD)
-            {
-                return pathL;
-            }
-            if (lR <= lU && lR <= lD && lR <= lL)
-            {
-                return pathR;
-            }
-            return pathU;
         }
     }
 
