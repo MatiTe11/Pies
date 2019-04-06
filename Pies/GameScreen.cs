@@ -173,6 +173,7 @@ namespace Pies
         {
             spriteBatch.Begin();
             spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Red);
+            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 100), Color.Red);
             spriteBatch.End();
         }
 
