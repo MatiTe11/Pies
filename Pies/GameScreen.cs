@@ -27,7 +27,6 @@ namespace Pies
         private List<List<Tile>> tiles;
         
         private List<Shit> shits;
-        InputManager inputManager;
         int sizeOfTile; //size in pixels
         Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
 
