@@ -63,7 +63,7 @@ namespace Pies
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
-            player = new Player(10, 10, 0.5f, sizeOfTile);
+            player = new Player(playerStartingPositionX, playerStartingPositionY, 0.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -75,7 +75,6 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
-            dog.Update(gameTime, new List<Shit>());
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
@@ -148,6 +147,9 @@ namespace Pies
 
         private void LoadMap()
         {
+     
+
+
             for (int i = 0; i < 10; i++)
             {
                 tiles.Add(new List<Tile>());
@@ -159,7 +161,7 @@ namespace Pies
                 {
                     elem.Add(new TileStairs(0, 0, 0));
                 }
-                
+
             }
             tiles[1][1] = new TileDoors(0, 0, 0);
 
