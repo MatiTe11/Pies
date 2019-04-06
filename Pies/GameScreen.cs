@@ -18,6 +18,9 @@ namespace Pies
 
         private float textureScale;
 
+        private int playerStartingPositionX;
+        private int playerStartingPositionY;
+
         private int firstTailPositionX;
         private int firstTailPositionY;
 
@@ -41,6 +44,9 @@ namespace Pies
             }
             firstTailPositionX = (int)((screenWidth-(sizeOfTile * sizeOfBoardX)) / 2);
             firstTailPositionY = (int)((screenHeight-(sizeOfTile * sizeOfBoardY)) / 2);
+
+            playerStartingPositionX = firstTailPositionX;
+            playerStartingPositionY = firstTailPositionY;
 
             LoadMap();
         }
@@ -74,14 +80,14 @@ namespace Pies
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) > 0)
+                if (!player.isMoving && GetTileNumberX(player.PosX) > 0)
                 {
                     player.Move(Direction.Left);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) < sizeOfBoardX - 1)
+                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1)
                 {
                     player.Move(Direction.Right);
                 }
@@ -108,9 +114,13 @@ namespace Pies
             DrawPlayer(spriteBatch);
         }
 
-        private int GetTileNumber(int px)
+        private int GetTileNumberX(int px)
         {
-            return px / sizeOfTile;
+            return (px-firstTailPositionX) / sizeOfTile;
+        }
+        private int GetTileNumberY(int py)
+        {
+            return (py - firstTailPositionY) / sizeOfTile;
         }
 
         private void DrawPlayer(SpriteBatch spriteBatch)
