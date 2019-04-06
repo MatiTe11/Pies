@@ -109,7 +109,7 @@ namespace Pies
                         this.changePositionY -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.playerPositionY -= this.changePositionY;
+                            this.playerPositionY += this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }
@@ -119,7 +119,7 @@ namespace Pies
                         this.changePositionY -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.playerPositionY += this.changePositionY;
+                            this.playerPositionY -= this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }

@@ -136,11 +136,11 @@ namespace Pies
 
         private int GetTileNumberX(int px)
         {
-            return (px-firstTailPositionX) / sizeOfTile;
+            return (px-firstTailPositionX+sizeOfTile/2) / sizeOfTile;
         }
         private int GetTileNumberY(int py)
         {
-            return (py - firstTailPositionY) / sizeOfTile;
+            return (py - firstTailPositionY+sizeOfTile / 2) / sizeOfTile;
         }
 
         private void DrawPlayer(SpriteBatch spriteBatch)
@@ -191,7 +191,7 @@ namespace Pies
 
         private void LoadMap()
         {
-            using (TextReader reader = File.OpenText(@"C:\Users\Deny\Pies\Pies\Map.txt"))
+            using (TextReader reader = File.OpenText("Map.txt"))
             {
                 string dataString;
                 sizeOfBoardX = int.Parse(reader.ReadLine());
