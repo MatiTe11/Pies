@@ -12,7 +12,7 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
-        private Dog dog;
+        //private Dog dog;
         private const int sizeOfBoardX = 3;
         private const int sizeOfBoardY = 3;
 
@@ -31,7 +31,6 @@ namespace Pies
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
-            
             inputManager = new InputManager();
             tiles = new List<List<Tile>>();
 
@@ -92,14 +91,14 @@ namespace Pies
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                if (!player.isMoving && tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)] is TileStairs && GetTileNumberY(player.PosY) > 0)
+                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumber(player.PosY) > 0)
                 {
                     player.Move(Direction.Up);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                if (!player.isMoving && tiles[GetTileNumberX(player.PosX)][ GetTileNumberY(player.PosY)] is TileStairs && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
+                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumber(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
                 }
@@ -134,11 +133,11 @@ namespace Pies
             {
                 for (int j = 0; j < sizeOfBoardY; j++)
                 {
-                    if (tiles[i][j] is TileDoors)
+                    if (tiles[i][j] == Tile.Door1 || tiles[i][j] == Tile.Door2 || tiles[i][j] == Tile.Door2)
                         spriteBatch.Draw(doorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0,0), new Vector2(textureScale), SpriteEffects.None, 0f);
-                    else if (tiles[i][j] is TileStairs)
+                    else if (tiles[i][j] == Tile.StairsNoWall || tiles[i][j] == Tile.StairsWall)
                         spriteBatch.Draw(elevatorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-                    else if (tiles[i][j] is TileEmpty)
+                    else if (tiles[i][j] ==Tile.Empty)
                         spriteBatch.Draw(emptyTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                 }
             }
@@ -159,11 +158,13 @@ namespace Pies
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    elem.Add(new TileStairs(0, 0, 0));
+                    elem.Add(Tile.Door1);
                 }
 
             }
-            tiles[1][1] = new TileDoors(0, 0, 0);
+            tiles[1][0] = Tile.StairsWall;
+            tiles[1][2] = Tile.StairsWall;
+            tiles[1][2] = Tile.StairsWall;
 
         }
     }
