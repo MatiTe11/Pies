@@ -19,8 +19,6 @@ namespace Pies
         int currentFrame;
         float totalTime;
 
-        private bool directionP;
-
         private int dogPositionX;
         private int dogPositionY;
         private int posX;
@@ -40,18 +38,20 @@ namespace Pies
         public int changePositionY;
         public bool downRight;
         public bool upLeft;
-        private int startX;
-        private int startY;
+        private int firstTailPositionX;
+        private int firstTailPositionY;
 
         public bool isMoving;
 
 
-        public Dog(int x, int y, int startX, int startY, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
+        public Dog(int x, int y, int firstTailPositionX, int firstTailPositionY, float speed, int sizeOfTile, List<List<Tile>> board, List<Shit> shit)
         {
             this.dogPositionX = x;
             this.dogPositionY = y;
-            this.posX = (dogPositionX - startX)/ sizeOfTile;
-            this.posY = (dogPositionY -startY)/ sizeOfTile;
+            this.posX = (x - firstTailPositionX + sizeOfTile / 2) / sizeOfTile;
+            this.posY = (y - firstTailPositionY + sizeOfTile / 2) / sizeOfTile;
+            this.firstTailPositionX = firstTailPositionX;
+            this.firstTailPositionY = firstTailPositionY;
             this.prevX = posX  - 1;
             this.prevY = posY;
             this.dogSpeed = speed;
@@ -88,11 +88,9 @@ namespace Pies
                 this.isMoving = true;
                 this.downRight = false;
                 this.upLeft = true;
-                this.directionP = false;
             }
             else if (direction == Direction.Right)
             {
-                this.directionP = true;
                 this.changePositionX += sizeOfTile;
                 this.downRight = true;
                 this.upLeft = false;
@@ -108,8 +106,8 @@ namespace Pies
 
         private void UpdatePosition()
         {
-            int newPosX = (dogPositionX - startX) / sizeOfTile;
-            int newPosY = (dogPositionY - startY) / sizeOfTile;
+            int newPosX = (dogPositionX - firstTailPositionX + sizeOfTile / 2) / sizeOfTile;
+            int newPosY = (dogPositionY - firstTailPositionY + sizeOfTile / 2) / sizeOfTile;
             if (newPosX != posX || newPosY != posY)
             {
                 prevX = posX;
@@ -141,28 +139,7 @@ namespace Pies
                 if (totalTime > 0.1f)
                 {
                     totalTime = 0;
-                    if (directionP == false)
-                    {
-                        if (currentFrame < 2)
-                        {
-                            currentFrame++;
-                        }
-                        else
-                        {
-                            currentFrame = 0;
-                        }                
-                    }
-                    else
-                    {
-                        if (currentFrame > 4)
-                        {
-                            currentFrame = 3;
-                        }
-                        else
-                        {
-                            currentFrame++;
-                        }
-                    }
+                    currentFrame++;
                 }
                 if (currentFrame == textures.Count())
                     currentFrame = 0;
@@ -228,12 +205,9 @@ namespace Pies
 
         public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
         {
-            if (!isShitting)
-            {
-                spriteBatch.Begin();
-                spriteBatch.Draw(textures[currentFrame], new Vector2(PosX + sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
-                spriteBatch.End();
-            }
+            spriteBatch.Begin();
+            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+            spriteBatch.End();
         }
 
         public int PosX
