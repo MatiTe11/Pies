@@ -107,7 +107,7 @@
     <Content Include="Graphics\SchodyZeSciana.png" />
     <Content Include="Graphics\Sciana.png" />
     <Content Include="Icon.ico" />
-    <Content Include="Map.txt" />
+    <Content Include="Content\Map.txt" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
