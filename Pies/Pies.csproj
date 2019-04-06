@@ -96,6 +96,7 @@
     <Content Include="Graphics\PiesSra2.png" />
     <Content Include="Graphics\PiesSra3.png" />
     <Content Include="Icon.ico" />
+    <Content Include="Map.txt" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
