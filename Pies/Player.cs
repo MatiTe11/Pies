@@ -27,11 +27,13 @@ namespace Pies
 
         public bool isMoving;
 
-        public Player() {}
+        List<Texture2D> textures;
+        int currentFrame;
+        float totalTime;
 
         public Player(int x, int y, float speed, int sizeOfTile)
         {
-            this.playerPositionX = x;     
+            this.playerPositionX = x;
             this.playerPositionY = y;
             this.playerSpeed = speed;
             this.sizeOfTile = sizeOfTile;
@@ -40,18 +42,20 @@ namespace Pies
             this.isMoving = false;
             this.upLeft = false;
             this.downRight = false;
+            currentFrame = 0;
+            totalTime = 0;
         }
 
         public void Move(Direction direction)
         {
-            if(direction == Direction.Up)
+            if (direction == Direction.Up)
             {
                 this.changePositionY += sizeOfTile;
                 this.isMoving = true;
                 this.downRight = false;
                 this.upLeft = true;
             }
-            else if(direction == Direction.Down)
+            else if (direction == Direction.Down)
             {
                 this.changePositionY += sizeOfTile;
                 this.isMoving = true;
@@ -74,19 +78,32 @@ namespace Pies
             }
 
         }
+        public void LoadContent(List<Texture2D> textures)
+        {
+            this.textures = textures;
+        }
         public void Update(GameTime gameTime)
         {
-            if(this.IsMoving())
+            if (this.IsMoving())
             {
-                if(this.changePositionX > 0)
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (totalTime > 0.1f)
+                {
+                    totalTime = 0;
+                    currentFrame++;
+                }
+                if (currentFrame == textures.Count())
+                    currentFrame = 0;
+
+                if (this.changePositionX > 0)
                 {
                     if (this.downRight) //move right
                     {
                         this.playerPositionX += (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         this.changePositionX -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                        if(changePositionX < 0)
+                        if (changePositionX < 0)
                         {
-                            this.playerPositionX -= this.changePositionX;
+                            this.playerPositionX += this.changePositionX;
                             this.changePositionX = 0;
                         }
                     }
@@ -96,12 +113,12 @@ namespace Pies
                         this.changePositionX -= (int)(playerSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionX < 0)
                         {
-                            this.playerPositionX += this.changePositionX;
+                            this.playerPositionX -= this.changePositionX;
                             this.changePositionX = 0;
                         }
-                    }                          
+                    }
                 }
-                else if(this.changePositionY > 0)
+                else if (this.changePositionY > 0)
                 {
                     if (this.downRight) //move down
                     {
@@ -127,8 +144,16 @@ namespace Pies
                 else
                 {
                     this.isMoving = false;
+                    currentFrame = 0;
                 }
             }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, float scale)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+            spriteBatch.End();
         }
 
         public bool IsMoving()

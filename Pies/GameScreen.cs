@@ -79,10 +79,13 @@ namespace Pies
             stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
             wallTex = Content.Load<Texture2D>("Sciana");
+            List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
             dog = new Dog(1,1,0.5f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
+            player.LoadContent(playerFrames);
+
         }
 
         override public void Reset()
@@ -132,7 +135,8 @@ namespace Pies
         override public void Draw(SpriteBatch spriteBatch)
         {
             DrawBoard(spriteBatch);
-            DrawPlayer(spriteBatch);
+            //DrawPlayer(spriteBatch);
+            player.Draw(spriteBatch, textureScale);
             DrawDog(spriteBatch);
         }
 
