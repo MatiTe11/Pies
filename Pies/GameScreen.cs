@@ -31,6 +31,7 @@ namespace Pies
         
         private List<Shit> shits;
         private int shitCounter;
+        private int shitsCollected = 0;
 
         int sizeOfTile; //size in pixels
         Texture2D doorWhiteTex, doorRedTex, doorBlueTex, shitTex1, shitTex2, dogL0Tex, dogL2Tex, dogL1Tex, dogP0Tex, dogP1Tex, dogP2Tex, dogSta0Tex, dogSta1Tex, dogSta2Tex, dogSta3Tex, player0Tex, playerLTex, playerPTex, stairsWithDoorsTex, stairsWithWallTex, wallTex;
@@ -101,9 +102,9 @@ namespace Pies
 
         override public void Update(GameTime gameTime)
         {
+            shits = dog.Shit;
             inputManager.Update();
             player.Update(gameTime);
-            shits = dog.Shit;
             shitCounter = shits.Count();
             dog.IsShitting();
             dog.Update(gameTime, shits);
@@ -135,6 +136,20 @@ namespace Pies
                 if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
+                }
+            }
+            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            {
+                int pX = (player.PosX / sizeOfTile);
+                int pY = (player.PosY / sizeOfTile);
+                for (int i = 0; i < shits.Count(); i++)
+                {
+                    if (pX - 1 == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
+                    {
+                        shits.RemoveAt(i);
+                        shitsCollected++;
+                        break;
+                    }
                 }
             }
         }
@@ -173,7 +188,7 @@ namespace Pies
         {
             spriteBatch.Begin();
             spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Red);
-            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 100), Color.Red);
+            spriteBatch.DrawString(font, "Shits collected: " + shitsCollected.ToString(), new Vector2(20, 100), Color.Red);
             spriteBatch.End();
         }
 
