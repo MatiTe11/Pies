@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace Pies
 {
@@ -13,8 +14,8 @@ namespace Pies
     {
         private Player player;
         private Dog dog;
-        private const int sizeOfBoardX = 3;
-        private const int sizeOfBoardY = 3;
+        private int sizeOfBoardX = 3;
+        private int sizeOfBoardY = 3;
 
         private float textureScale;
 
@@ -28,7 +29,7 @@ namespace Pies
         
         private List<Shit> shits;
         int sizeOfTile; //size in pixels
-        Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
+        Texture2D doorWhiteTex, doorRedTex, doorBlueTex, shitTex1, shitTex2, dogL0Tex, dogL2Tex, dogL1Tex, dogP0Tex, dogP1Tex, dogP2Tex, dogSta0Tex, dogSta1Tex, dogSta2Tex, dogSta3Tex, player0Tex, playerLTex, playerPTex, stairsWithDoorsTex, stairsWithWallTex, wallTex;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
@@ -36,6 +37,7 @@ namespace Pies
             tiles = new List<List<Tile>>();
             shits = new List<Shit>();
 
+            LoadMap();
             if (screenHeight / sizeOfBoardY >= screenWidth / sizeOfBoardX)
             {
                 this.sizeOfTile = (int)(screenWidth / sizeOfBoardX);
@@ -50,22 +52,37 @@ namespace Pies
             playerStartingPositionX = firstTailPositionX;
             playerStartingPositionY = firstTailPositionY;
 
-            LoadMap();
+
         }
 
         override public void LoadContent(ContentManager Content) 
         {
-            //whiteDoor = Content.Load<Texture2D>("Graphic/DrzwiBiale");
             //texture scale counting
-            
+            doorWhiteTex = Content.Load<Texture2D>("DrzwiBiale");
+            doorRedTex = Content.Load<Texture2D>("DrzwiCzerwone");
+            doorBlueTex = Content.Load<Texture2D>("DrzwiNiebieskie");
+            shitTex1 = Content.Load<Texture2D>("Kupsko");
+            shitTex2 = Content.Load<Texture2D>("Kupsko2");
+            dogL0Tex = Content.Load<Texture2D>("PiesL0");
+            dogL2Tex = Content.Load<Texture2D>("PiesL1");
+            dogL1Tex = Content.Load<Texture2D>("PiesL2");
+            dogP0Tex = Content.Load<Texture2D>("PiesP0");
+            dogP1Tex = Content.Load<Texture2D>("PiesP1");
+            dogP2Tex = Content.Load<Texture2D>("PiesP2");
+            dogSta0Tex = Content.Load<Texture2D>("PiesSra0");
+            dogSta1Tex = Content.Load<Texture2D>("PiesSra1");
+            dogSta2Tex = Content.Load<Texture2D>("PiesSra2");
+            dogSta3Tex = Content.Load<Texture2D>("PiesSra3");
+            player0Tex = Content.Load<Texture2D>("Player0");
+            playerLTex = Content.Load<Texture2D>("PlayerL");
+            playerPTex = Content.Load<Texture2D>("PlayerP");
+            stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
+            stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
+            wallTex = Content.Load<Texture2D>("Sciana");
 
-            playerTex = Content.Load<Texture2D>("player");
-            elevatorTex = Content.Load<Texture2D>("elevator");
-            doorTex = Content.Load<Texture2D>("doors");
-            emptyTex = Content.Load<Texture2D>("empty");
-            this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
-            player = new Player(playerStartingPositionX, playerStartingPositionY, 0.5f, sizeOfTile);
-            dog = new Dog(1, 1, 0.5f,sizeOfTile, tiles, shits);
+            this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
+            dog = new Dog(1,1,0.5f,sizeOfTile, tiles, shits);
+            player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -82,14 +99,14 @@ namespace Pies
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumberX(player.PosX) > 0)
+                if (!player.isMoving && GetTileNumberX(player.PosX) > 0 && tiles[GetTileNumberX(player.PosX) - 1][GetTileNumberY(player.PosY)] != Tile.Empty)
                 {
                     player.Move(Direction.Left);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1)
+                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1 && tiles[GetTileNumberX(player.PosX) + 1][GetTileNumberY(player.PosY)] != Tile.Empty)
                 {
                     player.Move(Direction.Right);
                 }
@@ -129,13 +146,13 @@ namespace Pies
         private void DrawPlayer(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(player0Tex, new Vector2(player.PosX,player.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawDog(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(doorTex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawBoard(SpriteBatch spriteBatch)
@@ -145,12 +162,28 @@ namespace Pies
             {
                 for (int j = 0; j < sizeOfBoardY; j++)
                 {
-                    if (tiles[i][j] == Tile.Door1 || tiles[i][j] == Tile.Door2 || tiles[i][j] == Tile.Door2)
-                        spriteBatch.Draw(doorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0,0), new Vector2(textureScale), SpriteEffects.None, 0f);
-                    else if (tiles[i][j] == Tile.StairsNoWall || tiles[i][j] == Tile.StairsWall)
-                        spriteBatch.Draw(elevatorTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-                    else if (tiles[i][j] ==Tile.Empty)
-                        spriteBatch.Draw(emptyTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    if(tiles[i][j] == Tile.Door1)
+                        spriteBatch.Draw(doorWhiteTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if(tiles[i][j] == Tile.Door2)
+                    {
+                        spriteBatch.Draw(doorRedTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else if (tiles[i][j] == Tile.Door3)
+                    {
+                        spriteBatch.Draw(doorBlueTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else if (tiles[i][j] == Tile.Empty)
+                    {
+                        spriteBatch.Draw(wallTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else if (tiles[i][j] == Tile.StairsNoWall)
+                    {
+                        spriteBatch.Draw(stairsWithDoorsTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else if (tiles[i][j] == Tile.StairsWall)
+                    {
+                        spriteBatch.Draw(stairsWithWallTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
                 }
             }
             spriteBatch.End();
@@ -158,25 +191,55 @@ namespace Pies
 
         private void LoadMap()
         {
-     
-
-
-            for (int i = 0; i < 10; i++)
+            using (TextReader reader = File.OpenText(@"C:\Users\Deny\Pies\Pies\Map.txt"))
             {
-                tiles.Add(new List<Tile>());
-            }
-
-            foreach (var elem in tiles)
-            {
-                for (int j = 0; j < 10; j++)
+                string dataString;
+                sizeOfBoardX = int.Parse(reader.ReadLine());
+                sizeOfBoardY = int.Parse(reader.ReadLine());
+                for (int i = 0; i < sizeOfBoardX; i++)
                 {
-                    elem.Add(Tile.Door1);
+                    tiles.Add(new List<Tile>());
                 }
-
+                foreach (var elem in tiles)
+                {
+                    for (int j = 0; j < sizeOfBoardY; j++)
+                    {
+                        elem.Add(Tile.Empty);
+                    }
+                }
+                for (int j = 0; j < sizeOfBoardY; j++)
+                {
+                    dataString = reader.ReadLine();
+                    for (int i = 0; i < sizeOfBoardX; i++)
+                    {
+                        if (dataString[i] == 'e')
+                        {
+                            tiles[i][j]=Tile.Empty;
+                        }
+                        else if (dataString[i] == 's')
+                        {
+                            tiles[i][j] = Tile.StairsWall;
+                        }
+                        else if (dataString[i] == 'n')
+                        {
+                            tiles[i][j] = Tile.StairsNoWall;
+                        }
+                        else if (dataString[i] == '1')
+                        {
+                            tiles[i][j] = Tile.Door1;
+                        }
+                        else if (dataString[i] == '2')
+                        {
+                            tiles[i][j] = Tile.Door2;
+                        }
+                        else if (dataString[i] == '3')
+                        {
+                            tiles[i][j] = Tile.Door3;
+                        }
+                    }
+                }
             }
-            tiles[1][0] = Tile.StairsWall;
-            tiles[1][2] = Tile.StairsWall;
-            tiles[1][2] = Tile.StairsWall;
+            
 
         }
 
