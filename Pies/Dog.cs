@@ -25,6 +25,7 @@ namespace Pies
         private int boardSizeX;
         private int boardSizeY;
         private float shitTime;
+        private bool isShitting;
         private List<Direction> path;
         private List<List<Tile>> board;
         private List<Shit> shit;
@@ -49,6 +50,8 @@ namespace Pies
             this.path = new List<Direction>();
             this.shit = shit;
             this.board = board;
+            shitTime = 0;
+            isShitting = false;
             //this.boardSizeX = board.Count();
             //this.boardSizeY = board.ElementAt(0).Count();
             this.boardSizeX = 3;
@@ -209,12 +212,23 @@ namespace Pies
         {
             if (shitTime > 0)
             {
+                isShitting = true;
                 return true;
             }
             else
             {
+                if (isShitting == true)
+                {
+                    shit.Add(new Shit(posX, posY));
+                    isShitting = false;
+                }
                 return false;
             }
+        }
+
+        public List<Shit> Shit
+        {
+            get { return shit; }
         }
 
         private void GenerateMove()
