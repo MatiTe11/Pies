@@ -165,7 +165,7 @@ namespace Pies
 
             }
             tiles[1][0] = Tile.StairsWall;
-            tiles[1][2] = Tile.StairsWall;
+            tiles[1][1] = Tile.StairsWall;
             tiles[1][2] = Tile.StairsWall;
 
         }

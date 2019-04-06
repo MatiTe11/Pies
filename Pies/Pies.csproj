@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Shit.cs" />
-    <Compile Include="Dog.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Player.cs" />
