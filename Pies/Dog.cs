@@ -193,16 +193,24 @@ namespace Pies
 
         private bool CheckIfPathIsEmpty()
         {
-            if (path.Count() == 0)
+            if (shitTime == 0)
             {
-                if (shitTime == 0)
-                {
-                    GenerateMove();
-                    return false;
-                }
+                GenerateMove();
                 return false;
             }
-            return true;
+            return false;
+        }
+
+        public bool IsShitting()
+        {
+            if (shitTime > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void GenerateMove()
@@ -233,8 +241,43 @@ namespace Pies
                 }
             }
 
+            if (rand.Next(0,2) % 2 == 1)
+            {
+                if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
+                {
+                    Move(Direction.Up);
+                    return;
+                }
+                if (posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && (posX == prevX && posY + 1 == prevY))
+                {
+                    Move(Direction.Down);
+                    return;
+                }
+                if (posX - 1 >= 0 && board[posX - 1][posY] != Tile.Empty && (posX - 1 == prevX && posY == prevY))
+                {
+                    Move(Direction.Left);
+                    return;
+                }
+                if (posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && (posX + 1 == prevX && posY == prevY))
+                {
+                    Move(Direction.Right);
+                    return;
+                }
+            }
+            bool kupa = false;
+            foreach (Shit x in shit)
+            {
+                if (x.positionX == posX && x.positionY == posY)
+                {
+                    kupa = true;
+                }
+            }
+            if(kupa == false)
+            {
+                shitTime = 5;
+            }
+        }
 
         }
-    }
 
 }
