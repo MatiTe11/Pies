@@ -70,7 +70,7 @@ namespace Pies
 
             if(inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) > 1)
+                if (!player.isMoving && GetTileNumber(player.PosX) > 0)
                 {
                     player.Move(Direction.Left);
                 }

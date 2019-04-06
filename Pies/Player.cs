@@ -48,24 +48,28 @@ namespace Pies
             {
                 this.changePositionY += sizeOfTile;
                 this.isMoving = true;
+                this.downRight = false;
                 this.upLeft = true;
             }
             else if(direction == Direction.Down)
             {
                 this.changePositionY += sizeOfTile;
                 this.isMoving = true;
+                this.upLeft = false;
                 this.downRight = true;
             }
             else if (direction == Direction.Left)
             {
                 this.changePositionX += sizeOfTile;
                 this.isMoving = true;
+                this.downRight = false;
                 this.upLeft = true;
             }
             else if (direction == Direction.Right)
             {
                 this.changePositionX += sizeOfTile;
                 this.downRight = true;
+                this.upLeft = false;
                 this.isMoving = true;
             }
 
