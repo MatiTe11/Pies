@@ -93,6 +93,8 @@ namespace Pies
             this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
             CheckIfPathIsEmpty();
 
+
+
             if (this.IsMoving())
             {
                 if (this.changePositionX > 0)
@@ -146,6 +148,15 @@ namespace Pies
                     this.isMoving = false;
                 }
             }
+            else
+            {
+                if (CheckIfPathIsEmpty())
+                {
+                    Move(path.ElementAt(0));
+                    path.RemoveAt(0);
+                }
+            }
+
         }
 
         public int PosX
@@ -166,15 +177,18 @@ namespace Pies
             set { dogSpeed = value; }
         }
 
-        private void CheckIfPathIsEmpty()
+        private bool CheckIfPathIsEmpty()
         {
             if (path.Count() == 0)
             {
                 if (shitTime == 0)
                 {
                     GeneratePath();
+                    return false;
                 }
+                return false;
             }
+            return true;
         }
 
 
