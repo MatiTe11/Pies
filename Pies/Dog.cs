@@ -22,6 +22,7 @@ namespace Pies
         private int sizeOfTile;
         private int boardSizeX;
         private int boardSizeY;
+        private int shitTime;
         private List<Direction> path;
         private List<List<Tile>> board;
         private List<Shit> shit;
@@ -50,6 +51,7 @@ namespace Pies
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
+            this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
             CheckIfPathIsEmpty();
         }
 
@@ -75,7 +77,10 @@ namespace Pies
         {
             if (path.Count() == 0)
             {
-                GeneratePath();
+                if (shitTime == 0)
+                {
+                    GeneratePath();
+                }
             }
         }
 
