@@ -70,15 +70,15 @@ namespace Pies
             dogSta1Tex = Content.Load<Texture2D>("PiesSra1");
             dogSta2Tex = Content.Load<Texture2D>("PiesSra2");
             dogSta3Tex = Content.Load<Texture2D>("PiesSra3");
-            player0Tex = Content.Load<Texture2D>("Player0.png");
+            player0Tex = Content.Load<Texture2D>("Player0");
             playerLTex = Content.Load<Texture2D>("PlayerL");
             playerPTex = Content.Load<Texture2D>("PlayerP");
             stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
-            wallTex = Content.Load<Texture2D>("SchodyZeSciana");
+            wallTex = Content.Load<Texture2D>("Sciana");
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            player = new Player(playerStartingPositionX, playerStartingPositionY, 2f, sizeOfTile);
+            player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
         }
 
         override public void Reset()
@@ -95,14 +95,14 @@ namespace Pies
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumberX(player.PosX) > 0)
+                if (!player.isMoving && GetTileNumberX(player.PosX) > 0 && tiles[GetTileNumberX(player.PosX) - 1][GetTileNumberY(player.PosY)] != Tile.Empty)
                 {
                     player.Move(Direction.Left);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1)
+                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1 && tiles[GetTileNumberX(player.PosX) + 1][GetTileNumberY(player.PosY)] != Tile.Empty)
                 {
                     player.Move(Direction.Right);
                 }
