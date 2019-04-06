@@ -25,6 +25,7 @@ namespace Pies
         private int firstTailPositionY;
 
         private List<List<Tile>> tiles;
+        
         private List<Shit> shits;
         InputManager inputManager;
         int sizeOfTile; //size in pixels
