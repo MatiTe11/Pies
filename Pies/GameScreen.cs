@@ -88,7 +88,7 @@ namespace Pies
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX,playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX + sizeOfTile, playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
 
