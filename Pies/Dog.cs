@@ -24,7 +24,7 @@ namespace Pies
         private int sizeOfTile;
         private int boardSizeX;
         private int boardSizeY;
-        private int shitTime;
+        private float shitTime;
         private List<Direction> path;
         private List<List<Tile>> board;
         private List<Shit> shit;
@@ -109,7 +109,7 @@ namespace Pies
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
-            this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
+            this.shitTime -= (float)(gameTime.ElapsedGameTime.TotalSeconds);
             if(this.shitTime < 0)
             {
                 this.shitTime = 0;
@@ -220,7 +220,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 4) % 4 != 1)
+            if (rand.Next(0, 4) % 4 != 0)
             {
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
@@ -228,24 +228,24 @@ namespace Pies
                     Move(Direction.Up);
                     return;
                 }
-                if (dir == 0 && posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
+                if (dir == 1 && posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
                 {
                     Move(Direction.Down);
                     return;
                 }
-                if (dir == 0 && posX - 1 >= 0 && board[posX - 1][posY] != Tile.Empty && !(posX - 1 == prevX && posY == prevY))
+                if (dir == 2 && posX - 1 >= 0 && board[posX - 1][posY] != Tile.Empty && !(posX - 1 == prevX && posY == prevY))
                 {
                     Move(Direction.Left);
                     return;
                 }
-                if (dir == 0 && posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
+                if (dir == 3 && posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
                 {
                     Move(Direction.Right);
                     return;
                 }
             }
 
-            if (rand.Next(0,2) % 2 == 1)
+            if (rand.Next(0,2) % 2 == 0)
             {
                 if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
                 {
@@ -276,9 +276,10 @@ namespace Pies
                     kupa = true;
                 }
             }
-            if(kupa == false)
+            if(kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
             {
                 shitTime = 5;
+                return;
             }
         }
 
