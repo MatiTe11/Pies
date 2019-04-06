@@ -86,11 +86,12 @@ namespace Pies
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
             wallTex = Content.Load<Texture2D>("Sciana");
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
-
+            List<Texture2D> dogFrames = new List<Texture2D>() { dogL0Tex, dogL1Tex, dogL2Tex, dogP0Tex, dogP1Tex, dogP2Tex};
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
             dog = new Dog(playerStartingPositionX, playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
+            dog.LoadContent(dogFrames);
 
         }
 
@@ -144,7 +145,7 @@ namespace Pies
             DrawBoard(spriteBatch);
             //DrawPlayer(spriteBatch);
             player.Draw(spriteBatch, textureScale);
-            DrawDog(spriteBatch);
+            dog.Draw(spriteBatch, textureScale, sizeOfTile);
             DrawCounter(spriteBatch);
         }
 
