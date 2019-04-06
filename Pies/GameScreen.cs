@@ -14,8 +14,8 @@ namespace Pies
     {
         private Player player;
         private Dog dog;
-        private const int sizeOfBoardX = 3;
-        private const int sizeOfBoardY = 3;
+        private int sizeOfBoardX = 3;
+        private int sizeOfBoardY = 3;
 
         private float textureScale;
 
@@ -81,6 +81,7 @@ namespace Pies
             wallTex = Content.Load<Texture2D>("Sciana");
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
+            dog = new Dog(1,1,0.5f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
         }
 
@@ -151,7 +152,7 @@ namespace Pies
         private void DrawDog(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(doorTex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
         private void DrawBoard(SpriteBatch spriteBatch)
