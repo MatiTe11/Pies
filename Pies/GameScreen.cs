@@ -55,7 +55,7 @@ namespace Pies
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale = (float)emptyTex.Width / (float)this.sizeOfTile;
-            player = new Player(10, 10, 0.5f, sizeOfTile);
+            player = new Player(0, 0, 0.5f, sizeOfTile);
         }
 
         override public void Reset()
