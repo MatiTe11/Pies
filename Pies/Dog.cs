@@ -110,6 +110,10 @@ namespace Pies
         {
             this.shit = shit;
             this.shitTime -= (int)(gameTime.ElapsedGameTime.TotalSeconds);
+            if(this.shitTime < 0)
+            {
+                this.shitTime = 0;
+            }
 
             UpdatePosition();
       
