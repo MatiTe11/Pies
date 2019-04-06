@@ -27,7 +27,7 @@ namespace Pies
         private int posY;
         private int prevX;
         private int prevY;
-        public float dogSpeed;
+        private float dogSpeed;
         private int sizeOfTile;
         private int boardSizeX;
         private int boardSizeY;
@@ -285,7 +285,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 5) == 0)
+            if (rand.Next(0, 6) == 0)
             {
                 bool kupa = false;
                 foreach (Shit x in shit)
