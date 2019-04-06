@@ -43,7 +43,7 @@ namespace Pies
             this.dogPositionY = y;
             this.posX = dogPositionX / sizeOfTile;
             this.posY = dogPositionY / sizeOfTile;
-            this.prevX = posX;
+            this.prevX = posX + 1;
             this.prevY = posY;
             this.dogSpeed = speed;
             this.sizeOfTile = sizeOfTile;
@@ -234,7 +234,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 4) % 4 > 0)
+            if (rand.Next(0, 7) > 0)
             {
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
@@ -257,9 +257,9 @@ namespace Pies
                     Move(Direction.Right);
                     return;
                 }
-            }
 
-            if (rand.Next(0,2) % 2 > 0)
+            }
+            if (rand.Next(0,3) > 0)
             {
                 if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
                 {
@@ -281,6 +281,7 @@ namespace Pies
                     Move(Direction.Right);
                     return;
                 }
+                return;
             }
             bool kupa = false;
             foreach (Shit x in shit)
@@ -288,11 +289,12 @@ namespace Pies
                 if (x.positionX == posX && x.positionY == posY)
                 {
                     kupa = true;
+                    break;
                 }
             }
             if(kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
             {
-                shitTime = 5;
+                shitTime = 1;
                 return;
             }
         }
