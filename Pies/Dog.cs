@@ -14,6 +14,11 @@ namespace Pies
 {
     class Dog
     {
+
+        List<Texture2D> textures;
+        int currentFrame;
+        float totalTime;
+
         private int dogPositionX;
         private int dogPositionY;
         private int posX;
@@ -108,6 +113,11 @@ namespace Pies
             }
         }
 
+        public void LoadContent(List<Texture2D> textures)
+        {
+            this.textures = textures;
+        }
+
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
@@ -121,6 +131,15 @@ namespace Pies
       
             if (this.IsMoving())
             {
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (totalTime > 0.1f)
+                {
+                    totalTime = 0;
+                    currentFrame++;
+                }
+                if (currentFrame == textures.Count())
+                    currentFrame = 0;
+
                 if (this.changePositionX > 0)
                 {
                     if (this.downRight) //move right
@@ -170,6 +189,7 @@ namespace Pies
                 else
                 {
                     this.isMoving = false;
+                    currentFrame = 0;
                 }
             }
             else
@@ -177,6 +197,13 @@ namespace Pies
                 CheckIfPathIsEmpty();
             }
 
+        }
+
+        public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX+ sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+            spriteBatch.End();
         }
 
         public int PosX

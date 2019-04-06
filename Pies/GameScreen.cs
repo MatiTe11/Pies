@@ -87,11 +87,12 @@ namespace Pies
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
             wallTex = Content.Load<Texture2D>("Sciana");
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
-
+            List<Texture2D> dogFrames = new List<Texture2D>() { dogL0Tex, dogL1Tex, dogL2Tex, dogP0Tex, dogP1Tex, dogP2Tex};
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX + sizeOfTile, playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX, playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
+            dog.LoadContent(dogFrames);
 
         }
 
@@ -159,7 +160,7 @@ namespace Pies
             DrawBoard(spriteBatch);
             //DrawPlayer(spriteBatch);
             player.Draw(spriteBatch, textureScale);
-            DrawDog(spriteBatch);
+            dog.Draw(spriteBatch, textureScale, sizeOfTile);
             DrawCounter(spriteBatch);
         }
 
@@ -223,17 +224,18 @@ namespace Pies
                     }
                 }
 
+                  
                 foreach (var shit in shits)
                 {
                     shitTime += 1f;
-                    if (shitTime < 60f)
+                    if (shitTime < 60f*shits.Count)
                     {                
                         spriteBatch.Draw(shitTex1, new Vector2(shit.positionX*sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                     }
                     else
                     {
                         spriteBatch.Draw(shitTex2, new Vector2(shit.positionX * sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-                        if (shitTime == 120f) shitTime = 0.0f;
+                        if (shitTime == 120f*shits.Count) shitTime = 0.0f;
                     }
                 }
                 
