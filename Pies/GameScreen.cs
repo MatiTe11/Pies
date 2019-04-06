@@ -12,6 +12,7 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
+        private Dog dog;
         private const int sizeOfBoardX = 3;
         private const int sizeOfBoardY = 3;
 
@@ -42,7 +43,6 @@ namespace Pies
             firstTailPositionX = (int)((screenWidth-(sizeOfTile * sizeOfBoardX)) / 2);
             firstTailPositionY = (int)((screenHeight-(sizeOfTile * sizeOfBoardY)) / 2);
 
-
             LoadMap();
         }
 
@@ -58,6 +58,7 @@ namespace Pies
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
             player = new Player(10, 10, 0.5f, sizeOfTile);
+            dog = new Dog(10, 10, 0.5f, 0, sizeOfTile, tiles, new List<Shit>());
         }
 
         override public void Reset()
@@ -69,6 +70,7 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
+            dog.Update(gameTime, new List<Shit>());
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
