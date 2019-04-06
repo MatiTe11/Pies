@@ -17,6 +17,9 @@ namespace Pies
         private int sizeOfBoardX = 3;
         private int sizeOfBoardY = 3;
 
+        private float shittingTime = 0.0f;
+        private float shitTime = 0.0f;
+
         private float textureScale;
 
         private int playerStartingPositionX;
@@ -28,8 +31,12 @@ namespace Pies
         private List<List<Tile>> tiles;
         
         private List<Shit> shits;
+        private int shitCounter;
+        private int shitsCollected = 0;
+
         int sizeOfTile; //size in pixels
         Texture2D doorWhiteTex, doorRedTex, doorBlueTex, shitTex1, shitTex2, dogL0Tex, dogL2Tex, dogL1Tex, dogP0Tex, dogP1Tex, dogP2Tex, dogSta0Tex, dogSta1Tex, dogSta2Tex, dogSta3Tex, player0Tex, playerLTex, playerPTex, stairsWithDoorsTex, stairsWithWallTex, wallTex;
+        SpriteFont font;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
@@ -76,15 +83,17 @@ namespace Pies
             player0Tex = Content.Load<Texture2D>("Player0");
             playerLTex = Content.Load<Texture2D>("PlayerL");
             playerPTex = Content.Load<Texture2D>("PlayerP");
+            font = Content.Load<SpriteFont>("Font");
             stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
             wallTex = Content.Load<Texture2D>("Sciana");
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
-
+            List<Texture2D> dogFrames = new List<Texture2D>() { dogL0Tex, dogL1Tex, dogL2Tex, dogP0Tex, dogP1Tex, dogP2Tex};
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX,playerStartingPositionY,0.5f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX, playerStartingPositionY,2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
+            dog.LoadContent(dogFrames);
 
         }
 
@@ -95,12 +104,23 @@ namespace Pies
 
         override public void Update(GameTime gameTime)
         {
+            shits = dog.Shit;
             inputManager.Update();
             player.Update(gameTime);
-            dog.Update(gameTime, shits);
+            shitCounter = shits.Count();
             dog.IsShitting();
-            shits = dog.Shit;
+            dog.Update(gameTime, shits);
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
+            if ( shitsCollected >= 5)
+            {
+                dog.Speed = 5.0F;
+                player.Speed = 3.0F;
+            }
+            if (shitsCollected >= 10)
+            {
+                dog.Speed = 10.0F;
+                player.Speed = 5.0F;
+            }
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
@@ -130,6 +150,20 @@ namespace Pies
                     player.Move(Direction.Down);
                 }
             }
+            else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
+            {
+                int pX = ((player.PosX - playerStartingPositionX) / sizeOfTile);
+                int pY = ((player.PosY - playerStartingPositionY) / sizeOfTile);
+                for (int i = 0; i < shits.Count(); i++)
+                {
+                    if (pX  == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
+                    {
+                        shits.RemoveAt(i);
+                        shitsCollected++;
+                        break;
+                    }
+                }
+            }
         }
 
         override public void Draw(SpriteBatch spriteBatch)
@@ -137,7 +171,8 @@ namespace Pies
             DrawBoard(spriteBatch);
             //DrawPlayer(spriteBatch);
             player.Draw(spriteBatch, textureScale);
-            DrawDog(spriteBatch);
+            dog.Draw(spriteBatch, textureScale, sizeOfTile);
+            DrawCounter(spriteBatch);
         }
 
         private int GetTileNumberX(int px)
@@ -158,9 +193,17 @@ namespace Pies
         private void DrawDog(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX+sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
+        private void DrawCounter(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Red);
+            spriteBatch.DrawString(font, "Shits collected: " + shitsCollected.ToString(), new Vector2(20, 100), Color.Red);
+            spriteBatch.End();
+        }
+
         private void DrawBoard(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -191,6 +234,37 @@ namespace Pies
                         spriteBatch.Draw(stairsWithWallTex, new Vector2(firstTailPositionX + i * sizeOfTile, firstTailPositionY + j * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
                     }
                 }
+
+                if (dog.IsShitting())
+                {
+                    shittingTime += 1.0f;
+                    if (shittingTime <= 15.0f)
+                        spriteBatch.Draw(dogSta0Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 30.0f)
+                        spriteBatch.Draw(dogSta1Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 45.0f)
+                        spriteBatch.Draw(dogSta2Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shittingTime <= 60.0f)
+                        spriteBatch.Draw(dogSta3Tex, new Vector2(dog.PosX + sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else
+                        shittingTime = 0.0f;
+                }
+                  
+                foreach (var shit in shits)
+                {
+                    shitTime += 1f;
+                    if (shitTime < 60f*shits.Count)
+                    {                
+                        spriteBatch.Draw(shitTex1, new Vector2(shit.positionX*sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(shitTex2, new Vector2(shit.positionX * sizeOfTile + playerStartingPositionX, shit.positionY * sizeOfTile), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                        if (shitTime == 120f*shits.Count) shitTime = 0.0f;
+                    }
+                }
+            
+                
             }
             spriteBatch.End();
         }
@@ -245,9 +319,9 @@ namespace Pies
                     }
                 }
             }
-            
-
         }
+
+
 
         public override int FinishedScreen()
         {

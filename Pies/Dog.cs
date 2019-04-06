@@ -14,13 +14,20 @@ namespace Pies
 {
     class Dog
     {
+
+        List<Texture2D> textures;
+        int currentFrame;
+        float totalTime;
+
+        private bool directionP;
+
         private int dogPositionX;
         private int dogPositionY;
         private int posX;
         private int posY;
         private int prevX;
         private int prevY;
-        public float dogSpeed;
+        private float dogSpeed;
         private int sizeOfTile;
         private int boardSizeX;
         private int boardSizeY;
@@ -43,7 +50,7 @@ namespace Pies
             this.dogPositionY = y;
             this.posX = dogPositionX / sizeOfTile;
             this.posY = dogPositionY / sizeOfTile;
-            this.prevX = posX;
+            this.prevX = posX  - 1;
             this.prevY = posY;
             this.dogSpeed = speed;
             this.sizeOfTile = sizeOfTile;
@@ -52,10 +59,9 @@ namespace Pies
             this.board = board;
             shitTime = 0;
             isShitting = false;
-            //this.boardSizeX = board.Count();
-            //this.boardSizeY = board.ElementAt(0).Count();
-            this.boardSizeX = 3;
-            this.boardSizeY = 3;
+            this.boardSizeX = board.Count();
+            this.boardSizeY = board.ElementAt(0).Count();
+
         }
 
         public void Move(Direction direction)
@@ -80,9 +86,11 @@ namespace Pies
                 this.isMoving = true;
                 this.downRight = false;
                 this.upLeft = true;
+                this.directionP = false;
             }
             else if (direction == Direction.Right)
             {
+                this.directionP = true;
                 this.changePositionX += sizeOfTile;
                 this.downRight = true;
                 this.upLeft = false;
@@ -109,6 +117,11 @@ namespace Pies
             }
         }
 
+        public void LoadContent(List<Texture2D> textures)
+        {
+            this.textures = textures;
+        }
+
         public void Update(GameTime gameTime, List<Shit> shit)
         {
             this.shit = shit;
@@ -122,6 +135,36 @@ namespace Pies
       
             if (this.IsMoving())
             {
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (totalTime > 0.1f)
+                {
+                    totalTime = 0;
+                    if (directionP == false)
+                    {
+                        if (currentFrame < 2)
+                        {
+                            currentFrame++;
+                        }
+                        else
+                        {
+                            currentFrame = 0;
+                        }                
+                    }
+                    else
+                    {
+                        if (currentFrame > 4)
+                        {
+                            currentFrame = 3;
+                        }
+                        else
+                        {
+                            currentFrame++;
+                        }
+                    }
+                }
+                if (currentFrame == textures.Count())
+                    currentFrame = 0;
+
                 if (this.changePositionX > 0)
                 {
                     if (this.downRight) //move right
@@ -153,7 +196,7 @@ namespace Pies
                         this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.dogPositionY -= this.changePositionY;
+                            this.dogPositionY += this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }
@@ -163,7 +206,7 @@ namespace Pies
                         this.changePositionY -= (int)(dogSpeed * sizeOfTile * (float)gameTime.ElapsedGameTime.TotalSeconds);
                         if (changePositionY < 0)
                         {
-                            this.dogPositionY += this.changePositionY;
+                            this.dogPositionY -= this.changePositionY;
                             this.changePositionY = 0;
                         }
                     }
@@ -171,6 +214,7 @@ namespace Pies
                 else
                 {
                     this.isMoving = false;
+                    currentFrame = 0;
                 }
             }
             else
@@ -178,6 +222,16 @@ namespace Pies
                 CheckIfPathIsEmpty();
             }
 
+        }
+
+        public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
+        {
+            if (!isShitting)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(textures[currentFrame], new Vector2(PosX + sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+                spriteBatch.End();
+            }
         }
 
         public int PosX
@@ -234,8 +288,27 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 4) % 4 != 0)
+            if (rand.Next(0, 6) == 0)
             {
+                bool kupa = false;
+                foreach (Shit x in shit)
+                {
+                    if (x.positionX == posX && x.positionY == posY)
+                    {
+                        kupa = true;
+                        break;
+                    }
+                }
+                if (kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
+                {
+                    shitTime = 1;
+                    return;
+                }
+                return;
+            }
+            if (rand.Next(0, 7) > 0)
+            {
+
                 int dir = rand.Next(0, 4);
                 if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
                 {
@@ -257,9 +330,9 @@ namespace Pies
                     Move(Direction.Right);
                     return;
                 }
-            }
 
-            if (rand.Next(0,2) % 2 == 0)
+            }
+            else
             {
                 if (posY - 1 >= 0 && board[posX][posY - 1] != Tile.Empty && (posX == prevX && posY - 1 == prevY))
                 {
@@ -281,18 +354,6 @@ namespace Pies
                     Move(Direction.Right);
                     return;
                 }
-            }
-            bool kupa = false;
-            foreach (Shit x in shit)
-            {
-                if (x.positionX == posX && x.positionY == posY)
-                {
-                    kupa = true;
-                }
-            }
-            if(kupa == false && (board[posX][posY] == Tile.Door1 || board[posX][posY] == Tile.Door2 || board[posX][posY] == Tile.Door3))
-            {
-                shitTime = 5;
                 return;
             }
         }
