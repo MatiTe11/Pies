@@ -74,6 +74,7 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
+            Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
@@ -91,14 +92,14 @@ namespace Pies
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumber(player.PosY) > 0)
+                if (!player.isMoving && (currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall) && GetTileNumberY(player.PosY) > 0)
                 {
                     player.Move(Direction.Up);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumber(player.PosY) < (sizeOfBoardY-1))
+                if (!player.isMoving && ((currentTile == Tile.StairsWall || currentTile == Tile.StairsNoWall)) && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
                 }
