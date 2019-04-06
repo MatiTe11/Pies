@@ -211,11 +211,29 @@ namespace Pies
             if (rand.Next(0, 4) % 2 != 1)
             {
                 int dir = rand.Next(0, 4);
-                if (dir == 0 && posX - 1 > 0 && )
+                if (dir == 0 && posY - 1 >= 0 && board[posX][posY-1] != Tile.Empty && !(posX == prevX && posY - 1 == prevY))
                 {
-                    
+                    Move(Direction.Up);
+                    return;
+                }
+                if (dir == 0 && posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
+                {
+                    Move(Direction.Down);
+                    return;
+                }
+                if (dir == 0 && posX - 1 >= 0 && board[posX - 1][posY] != Tile.Empty && !(posX - 1 == prevX && posY == prevY))
+                {
+                    Move(Direction.Left);
+                    return;
+                }
+                if (dir == 0 && posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
+                {
+                    Move(Direction.Right);
+                    return;
                 }
             }
+
+
         }
     }
 
