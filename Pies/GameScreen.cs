@@ -70,7 +70,7 @@ namespace Pies
 
             if(inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) > 1)
+                if (!player.isMoving && GetTileNumber(player.PosX) > 0)
                 {
                     player.Move(Direction.Left);
                 }
@@ -93,7 +93,7 @@ namespace Pies
             {
                 if (!player.isMoving && tiles[GetTileNumber(player.PosX)][ GetTileNumber(player.PosY)] is TileStairs)
                 {
-                    player.Move(Direction.Up);
+                    player.Move(Direction.Down);
                 }
             }
         }
