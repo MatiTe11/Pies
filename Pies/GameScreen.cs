@@ -93,7 +93,7 @@ namespace Pies
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
             List<Texture2D> dogFrames = new List<Texture2D>() { dogL0Tex, dogL1Tex, dogL2Tex, dogP0Tex, dogP1Tex, dogP2Tex};
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX, playerStartingPositionY, firstTailPositionX, firstTailPositionY, 2.0f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX+ sizeOfTile, playerStartingPositionY, firstTailPositionX, firstTailPositionY, 2.0f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
             dog.LoadContent(dogFrames);
@@ -135,13 +135,13 @@ namespace Pies
                 Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
                 if (shitsCollected >= 5)
                 {
-                    dog.Speed = 5.0F;
-                    player.Speed = 3.0F;
+                    dog.Speed = 3.0F;
+                    player.Speed = 2.0F;
                 }
                 if (shitsCollected >= 10)
                 {
-                    dog.Speed = 10.0F;
-                    player.Speed = 5.0F;
+                    dog.Speed = 4.0F;
+                    player.Speed = 2.0F;
                 }
 
                 if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
@@ -184,7 +184,7 @@ namespace Pies
                             shitsCollected++;
                             if (shitCounter > 5)
                             {
-                                pickingScreen.Reset(Tile.Door2);
+                                pickingScreen.Reset(currentTile);
                                 minigameRunning = true;
                             }
 
@@ -230,8 +230,8 @@ namespace Pies
         private void DrawCounter(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Red);
-            spriteBatch.DrawString(font, "Shits collected: " + shitsCollected.ToString(), new Vector2(20, 100), Color.Red);
+            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Black);
+            spriteBatch.DrawString(font, "Shits collected: " + shitsCollected.ToString(), new Vector2(20, 100), Color.Black);
             spriteBatch.End();
         }
 
@@ -266,7 +266,21 @@ namespace Pies
                     }
                 }
 
-                  
+                if (dog.IsShitting())
+                {
+                    shitTime += 1.0f;
+                    if (shitTime <= 15.0f)
+                        spriteBatch.Draw(dogSta0Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shitTime <= 30.0f)
+                        spriteBatch.Draw(dogSta1Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shitTime <= 45.0f)
+                        spriteBatch.Draw(dogSta2Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else if (shitTime <= 60.0f)
+                        spriteBatch.Draw(dogSta3Tex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+                    else
+                        shitTime = 0.0f;
+                }
+
                 foreach (var shit in shits)
                 {
                     shitTime += 1f;
