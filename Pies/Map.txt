@@ -1,9 +1,7 @@
-﻿5
+﻿8
 5
-21n32
-eesee
-31n23
-eesee
-12n13
-
- 
+12n32n23
+eeseesee
+31n23n12
+eeseesee
+12n13n31

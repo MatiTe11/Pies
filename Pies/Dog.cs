@@ -205,9 +205,12 @@ namespace Pies
 
         public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
-            spriteBatch.End();
+            if (!isShitting)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(textures[currentFrame], new Vector2(PosX, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+                spriteBatch.End();
+            }
         }
 
         public int PosX
@@ -264,7 +267,7 @@ namespace Pies
         private void GenerateMove()
         {
             Random rand = new Random();
-            if (rand.Next(0, 6) == 0)
+            if (rand.Next(0, 7) == 0)
             {
                 bool kupa = false;
                 foreach (Shit x in shit)
@@ -291,7 +294,7 @@ namespace Pies
                     Move(Direction.Up);
                     return;
                 }
-                if (dir == 1 && posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
+                if (dir == 1 && posY + 1 < boardSizeY && board[posX][posY + 1] != Tile.Empty && !(posX == prevX && posY + 1 == prevY))
                 {
                     Move(Direction.Down);
                     return;
@@ -301,7 +304,7 @@ namespace Pies
                     Move(Direction.Left);
                     return;
                 }
-                if (dir == 3 && posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
+                if (dir == 3 && posX + 1 < boardSizeX && board[posX + 1][posY] != Tile.Empty && !(posX + 1 == prevX && posY == prevY))
                 {
                     Move(Direction.Right);
                     return;
@@ -315,7 +318,7 @@ namespace Pies
                     Move(Direction.Up);
                     return;
                 }
-                if (posY + 1 < boardSizeX && board[posX][posY + 1] != Tile.Empty && (posX == prevX && posY + 1 == prevY))
+                if (posY + 1 < boardSizeY && board[posX][posY + 1] != Tile.Empty && (posX == prevX && posY + 1 == prevY))
                 {
                     Move(Direction.Down);
                     return;
@@ -325,7 +328,7 @@ namespace Pies
                     Move(Direction.Left);
                     return;
                 }
-                if (posX + 1 < boardSizeY && board[posX + 1][posY] != Tile.Empty && (posX + 1 == prevX && posY == prevY))
+                if (posX + 1 < boardSizeX && board[posX + 1][posY] != Tile.Empty && (posX + 1 == prevX && posY == prevY))
                 {
                     Move(Direction.Right);
                     return;
