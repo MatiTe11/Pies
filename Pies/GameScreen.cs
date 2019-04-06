@@ -13,9 +13,8 @@ namespace Pies
     {
         private Player player;
         //private Dog dog;
-        private const int sizeOfBoardX = 3;
-        private const int sizeOfBoardY = 3;
-        int graficzkaPsa = 0;
+        private int sizeOfBoardX = 3;
+        private int sizeOfBoardY = 3;
 
         private float textureScale;
 
@@ -28,7 +27,7 @@ namespace Pies
         private List<List<Tile>> tiles;
         InputManager inputManager;
         int sizeOfTile; //size in pixels
-        Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex, dogTex, dogTex1, dogTex2;
+        Texture2D playerTex, doorTex, elevatorTex, whiteDoor, emptyTex;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
@@ -62,9 +61,6 @@ namespace Pies
             elevatorTex = Content.Load<Texture2D>("elevator");
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
-            dogTex = Content.Load<Texture2D>("PiesP0");
-            dogTex1 = Content.Load<Texture2D>("PiesL1");
-            dogTex2 = Content.Load<Texture2D>("PiesP2");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
             player = new Player(playerStartingPositionX, playerStartingPositionY, 0.5f, sizeOfTile);
         }
@@ -115,7 +111,6 @@ namespace Pies
         {
             DrawBoard(spriteBatch);
             DrawPlayer(spriteBatch);
-            DrawDog(spriteBatch);
         }
 
         private int GetTileNumberX(int px)
@@ -133,22 +128,6 @@ namespace Pies
             spriteBatch.Draw(playerTex, new Vector2(player.PosX,player.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
-        private void DrawDog(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Begin();
-            if(graficzkaPsa % 3 == 0)
-                spriteBatch.Draw(dogTex, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-            if (graficzkaPsa % 3 == 1)
-                spriteBatch.Draw(dogTex1, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-            if (graficzkaPsa % 3 == 2)
-                spriteBatch.Draw(dogTex2, new Vector2(dog.PosX, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
-
-            graficzkaPsa++;
-
-
-            spriteBatch.End();
-        }
-
         private void DrawBoard(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -169,8 +148,7 @@ namespace Pies
 
         private void LoadMap()
         {
-     
-
+         
 
             for (int i = 0; i < 10; i++)
             {
