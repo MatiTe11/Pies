@@ -17,6 +17,9 @@ namespace Pies
 
         private float textureScale;
 
+        private int playerStartingPositionX;
+        private int playerStartingPositionY;
+
         private int firstTailPositionX;
         private int firstTailPositionY;
 
@@ -42,6 +45,8 @@ namespace Pies
             firstTailPositionX = (int)((screenWidth-(sizeOfTile * sizeOfBoardX)) / 2);
             firstTailPositionY = (int)((screenHeight-(sizeOfTile * sizeOfBoardY)) / 2);
 
+            playerStartingPositionX = firstTailPositionX;
+            playerStartingPositionY = firstTailPositionY;
 
             LoadMap();
         }
@@ -57,7 +62,7 @@ namespace Pies
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
             this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
-            player = new Player(10, 10, 0.5f, sizeOfTile);
+            player = new Player(playerStartingPositionX, playerStartingPositionY, 50f, sizeOfTile);
         }
 
         override public void Reset()
@@ -72,28 +77,28 @@ namespace Pies
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) > 0)
+                if (!player.isMoving && GetTileNumberX(player.PosX) > 0)
                 {
                     player.Move(Direction.Left);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Right))
             {
-                if (!player.isMoving && GetTileNumber(player.PosX) < sizeOfBoardX - 1)
+                if (!player.isMoving && GetTileNumberX(player.PosX) < sizeOfBoardX - 1)
                 {
                     player.Move(Direction.Right);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Up))
             {
-                if (!player.isMoving && tiles[GetTileNumber(player.PosX)][GetTileNumber(player.PosY)] is TileStairs && GetTileNumber(player.PosY) > 0)
+                if (!player.isMoving && tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)] is TileStairs && GetTileNumberY(player.PosY) > 0)
                 {
                     player.Move(Direction.Up);
                 }
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Down))
             {
-                if (!player.isMoving && tiles[GetTileNumber(player.PosX)][ GetTileNumber(player.PosY)] is TileStairs && GetTileNumber(player.PosY) < (sizeOfBoardY-1))
+                if (!player.isMoving && tiles[GetTileNumberX(player.PosX)][ GetTileNumberY(player.PosY)] is TileStairs && GetTileNumberY(player.PosY) < (sizeOfBoardY-1))
                 {
                     player.Move(Direction.Down);
                 }
@@ -106,9 +111,13 @@ namespace Pies
             DrawPlayer(spriteBatch);
         }
 
-        private int GetTileNumber(int px)
+        private int GetTileNumberX(int px)
         {
-            return px / sizeOfTile;
+            return (px-firstTailPositionX) / sizeOfTile;
+        }
+        private int GetTileNumberY(int py)
+        {
+            return (py - firstTailPositionY) / sizeOfTile;
         }
 
         private void DrawPlayer(SpriteBatch spriteBatch)
