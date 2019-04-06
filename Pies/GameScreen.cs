@@ -12,7 +12,6 @@ namespace Pies
     class GameScreen : Screen
     {
         private Player player;
-        private Player dog;
         private const int sizeOfBoardX = 3;
         private const int sizeOfBoardY = 3;
 
@@ -54,7 +53,7 @@ namespace Pies
             elevatorTex = Content.Load<Texture2D>("elevator");
             doorTex = Content.Load<Texture2D>("doors");
             emptyTex = Content.Load<Texture2D>("empty");
-            this.textureScale = (float)emptyTex.Width / (float)this.sizeOfTile;
+            this.textureScale =  (float)this.sizeOfTile / (float)emptyTex.Width;
             player = new Player(10, 10, 0.5f, sizeOfTile);
         }
 
@@ -148,6 +147,7 @@ namespace Pies
                 }
                 
             }
+            tiles[1][1] = new TileDoors(0, 0, 0);
 
         }
     }
