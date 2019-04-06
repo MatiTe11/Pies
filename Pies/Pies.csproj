@@ -108,6 +108,7 @@
     <Content Include="Graphics\Sciana.png" />
     <Content Include="Icon.ico" />
     <Content Include="Content\Map.txt" />
+    <Content Include="Map.txt" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
