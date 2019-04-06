@@ -28,8 +28,11 @@ namespace Pies
         private List<List<Tile>> tiles;
         
         private List<Shit> shits;
+        private int shitCounter;
+
         int sizeOfTile; //size in pixels
         Texture2D doorWhiteTex, doorRedTex, doorBlueTex, shitTex1, shitTex2, dogL0Tex, dogL2Tex, dogL1Tex, dogP0Tex, dogP1Tex, dogP2Tex, dogSta0Tex, dogSta1Tex, dogSta2Tex, dogSta3Tex, player0Tex, playerLTex, playerPTex, stairsWithDoorsTex, stairsWithWallTex, wallTex;
+        SpriteFont font;
 
         public GameScreen(int screenWidth, int screenHeight) : base(screenWidth,screenHeight)
         {
@@ -76,6 +79,7 @@ namespace Pies
             player0Tex = Content.Load<Texture2D>("Player0");
             playerLTex = Content.Load<Texture2D>("PlayerL");
             playerPTex = Content.Load<Texture2D>("PlayerP");
+            font = Content.Load<SpriteFont>("Font");
             stairsWithDoorsTex = Content.Load<Texture2D>("SchodyZDrzwiami");
             stairsWithWallTex = Content.Load<Texture2D>("SchodyZeSciana");
             wallTex = Content.Load<Texture2D>("Sciana");
@@ -98,6 +102,7 @@ namespace Pies
             inputManager.Update();
             player.Update(gameTime);
             shits = dog.Shit;
+            shitCounter = shits.Count();
             dog.IsShitting();
             dog.Update(gameTime, shits);
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
@@ -138,6 +143,7 @@ namespace Pies
             //DrawPlayer(spriteBatch);
             player.Draw(spriteBatch, textureScale);
             DrawDog(spriteBatch);
+            DrawCounter(spriteBatch);
         }
 
         private int GetTileNumberX(int px)
@@ -159,6 +165,12 @@ namespace Pies
         {
             spriteBatch.Begin();
             spriteBatch.Draw(dogL0Tex, new Vector2(dog.PosX+sizeOfTile, dog.PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(textureScale), SpriteEffects.None, 0f);
+            spriteBatch.End();
+        }
+        private void DrawCounter(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, "Shits on the screen: " + shitCounter.ToString(), new Vector2(20, 50), Color.Red);
             spriteBatch.End();
         }
 
