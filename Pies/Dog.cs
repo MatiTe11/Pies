@@ -226,9 +226,12 @@ namespace Pies
 
         public void Draw(SpriteBatch spriteBatch, float scale, int sizeOfTale)
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(textures[currentFrame], new Vector2(PosX+ sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
-            spriteBatch.End();
+            if (!isShitting)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(textures[currentFrame], new Vector2(PosX + sizeOfTale, PosY), null, Color.White, 0f, new Vector2(0, 0), new Vector2(scale), SpriteEffects.None, 0f);
+                spriteBatch.End();
+            }
         }
 
         public int PosX
