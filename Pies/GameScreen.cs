@@ -82,7 +82,7 @@ namespace Pies
             List<Texture2D> playerFrames = new List<Texture2D>(){ player0Tex, playerLTex, player0Tex, playerPTex };
 
             this.textureScale =  (float)this.sizeOfTile / (float)doorWhiteTex.Width;
-            dog = new Dog(playerStartingPositionX,playerStartingPositionY,0.5f,sizeOfTile, tiles, shits);
+            dog = new Dog(playerStartingPositionX,playerStartingPositionY,2.5f,sizeOfTile, tiles, shits);
             player = new Player(playerStartingPositionX, playerStartingPositionY, 1.5f, sizeOfTile);
             player.LoadContent(playerFrames);
 
@@ -97,9 +97,9 @@ namespace Pies
         {
             inputManager.Update();
             player.Update(gameTime);
-            dog.Update(gameTime, shits);
-            dog.IsShitting();
             shits = dog.Shit;
+            dog.IsShitting();
+            dog.Update(gameTime, shits);
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
