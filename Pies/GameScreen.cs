@@ -110,6 +110,16 @@ namespace Pies
             dog.IsShitting();
             dog.Update(gameTime, shits);
             Tile currentTile = tiles[GetTileNumberX(player.PosX)][GetTileNumberY(player.PosY)];
+            if ( shitsCollected >= 5)
+            {
+                dog.Speed = 5.0F;
+                player.Speed = 3.0F;
+            }
+            if (shitsCollected >= 10)
+            {
+                dog.Speed = 10.0F;
+                player.Speed = 5.0F;
+            }
 
             if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Left))
             {
@@ -141,11 +151,11 @@ namespace Pies
             }
             else if (inputManager.isKeyPressed(Microsoft.Xna.Framework.Input.Keys.Space))
             {
-                int pX = (player.PosX / sizeOfTile);
-                int pY = (player.PosY / sizeOfTile);
+                int pX = ((player.PosX - playerStartingPositionX) / sizeOfTile);
+                int pY = ((player.PosY - playerStartingPositionY) / sizeOfTile);
                 for (int i = 0; i < shits.Count(); i++)
                 {
-                    if (pX - 1 == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
+                    if (pX  == shits.ElementAt(i).positionX && pY == shits.ElementAt(i).positionY)
                     {
                         shits.RemoveAt(i);
                         shitsCollected++;
