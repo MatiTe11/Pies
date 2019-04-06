@@ -13,8 +13,8 @@ namespace Pies
     {
         private Player player;
         //private Dog dog;
-        private const int sizeOfBoardX = 3;
-        private const int sizeOfBoardY = 3;
+        private int sizeOfBoardX = 3;
+        private int sizeOfBoardY = 3;
 
         private float textureScale;
 
@@ -146,8 +146,7 @@ namespace Pies
 
         private void LoadMap()
         {
-     
-
+         
 
             for (int i = 0; i < 10; i++)
             {
